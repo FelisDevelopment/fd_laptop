@@ -1,0 +1,29 @@
+@import url(https://fonts.bunny.net/css?family=inter:100,200,300,400,500,600,700,800,900);
+
+@layer tailwind-base, primevue, tailwind-utilities;
+
+@layer tailwind-base {
+  @tailwind base;
+}
+
+@layer tailwind-utilities {
+  @tailwind components;
+
+  .dark-app {
+    color-scheme: normal;
+  }
+
+  @tailwind utilities;
+}
+
+.p-datepicker-panel {
+  @apply w-auto bg-gray-100/50 p-[var(--p-datepicker-panel-padding)] text-[var(--p-datepicker-panel-color)] backdrop-blur-xl dark:bg-gray-800/50;
+}
+
+.p-datepicker-header {
+  @apply flex items-center justify-between rounded-lg bg-gray-100/5 p-0 backdrop-blur-xl dark:bg-gray-800/5;
+}
+
+.lscrollbar {
+  @apply scrollbar-thin scrollbar-track-rounded-[100px] scrollbar-thumb-rounded-[100px] scrollbar-corner-rounded-[100px] dark:scrollbar-track-gray-500/80 dark:scrollbar-thumb-gray-400/80;
+}
