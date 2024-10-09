@@ -1,6 +1,6 @@
 # FD Laptop
 
-Fully free laptop base for anyone to use, with built-in custom apps API (you can find ready templates in our [repo](https://github.com/FelisDevelopment/fd_laptop_app_templates)) and other features to extend user experience. Going further, the laptop will be supported and get more functionality since we're going to base a lot of our releases on this laptop. Feel free to open an issue with your problems for pull requests.
+Fully free laptop base for anyone to use, with built-in custom apps API (you can find ready templates in our [repo](https://github.com/FelisDevelopment/fd_laptop_app_templates)) and other features to extend user experience. Going further, the laptop will be supported and get more functionality since we're going to base a lot of our releases on this laptop. Feel free to open an issue with your problems or a pull requests with features/fixes.
 
 Proper feedback is also really appreciated.
 
