@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_5" xmlns="http://www.w3.org/2000/svg" width="200" height="200" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="Degradado_sin_nombre_19" data-name="Degradado sin nombre 19" x1="79.3" y1="45.37" x2="74.38" y2="52.75" gradientTransform="translate(58.55 -14.68) rotate(35)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".2" stop-color="#fff" stop-opacity=".02"/>
+      <stop offset=".4" stop-color="#fff" stop-opacity=".06"/>
+      <stop offset=".59" stop-color="#fff" stop-opacity=".14"/>
+      <stop offset=".79" stop-color="#fff" stop-opacity=".25"/>
+      <stop offset=".98" stop-color="#fff" stop-opacity=".38"/>
+      <stop offset="1" stop-color="#fff" stop-opacity=".4"/>
+    </linearGradient>
+    <linearGradient id="Degradado_sin_nombre_42" data-name="Degradado sin nombre 42" x1="10.07" y1="85.5" x2="95.02" y2="85.5" gradientTransform="translate(58.55 -14.68) rotate(35)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".11" stop-color="#fff" stop-opacity=".03"/>
+      <stop offset=".28" stop-color="#fff" stop-opacity=".1"/>
+      <stop offset=".47" stop-color="#fff" stop-opacity=".23"/>
+      <stop offset=".69" stop-color="#fff" stop-opacity=".4"/>
+      <stop offset=".93" stop-color="#fff" stop-opacity=".63"/>
+      <stop offset="1" stop-color="#fff" stop-opacity=".7"/>
+    </linearGradient>
+    <linearGradient id="Degradado_sin_nombre_19-2" data-name="Degradado sin nombre 19" x1="113.92" y1="54.92" x2="120.35" y2="60.79" gradientTransform="translate(132.92 -84.33) rotate(55)" xlink:href="#Degradado_sin_nombre_19"/>
+    <linearGradient id="Degradado_sin_nombre_42-2" data-name="Degradado sin nombre 42" x1="104.98" x2="189.93" gradientTransform="translate(132.92 -84.33) rotate(55)" xlink:href="#Degradado_sin_nombre_42"/>
+    <linearGradient id="Degradado_sin_nombre_19-3" data-name="Degradado sin nombre 19" x1="-2603.96" y1="-986" x2="-2527.48" y2="-986" gradientTransform="translate(-566.11 -2567.19) rotate(-125.01)" xlink:href="#Degradado_sin_nombre_19"/>
+    <linearGradient id="Degradado_sin_nombre_42-3" data-name="Degradado sin nombre 42" x1="-2604.8" y1="-986" x2="-2526.64" y2="-986" gradientTransform="translate(-566.11 -2567.19) rotate(-125.01)" xlink:href="#Degradado_sin_nombre_42"/>
+    <linearGradient id="Degradado_sin_nombre_19-4" data-name="Degradado sin nombre 19" x1="63.63" y1="100" x2="140.12" y2="100" gradientTransform="translate(75.73 -40.34) rotate(34.98)" xlink:href="#Degradado_sin_nombre_19"/>
+    <linearGradient id="Degradado_sin_nombre_42-4" data-name="Degradado sin nombre 42" x1="62.79" y1="100" x2="140.96" y2="100" gradientTransform="translate(75.73 -40.34) rotate(34.98)" xlink:href="#Degradado_sin_nombre_42"/>
+  </defs>
+  <rect x="16.05" y="65.2" width="73" height="40.61" transform="translate(-39.54 45.6) rotate(-35)" fill="url(#Degradado_sin_nombre_19)" stroke="url(#Degradado_sin_nombre_42)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.87"/>
+  <rect x="127.15" y="49" width="40.61" height="73" transform="translate(-7.16 157.25) rotate(-55)" fill="url(#Degradado_sin_nombre_19-2)" stroke="url(#Degradado_sin_nombre_42-2)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.87"/>
+  <rect x="12.59" y="86.75" width="8.11" height="8.11" transform="translate(-49.07 25.97) rotate(-35)"/>
+  <rect x="35.22" y="97.36" width="125.8" height="5.28" transform="translate(-40.07 123.01) rotate(-54.99)" fill="url(#Degradado_sin_nombre_19-3)" stroke="url(#Degradado_sin_nombre_42-3)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.68"/>
+  <rect x="126.14" y="49.53" width="8.11" height="8.11" transform="translate(11.63 129.5) rotate(-55)"/>
+  <rect x="128.14" y="60.82" width="8.11" height="8.11" transform="translate(3.22 135.95) rotate(-55)"/>
+  <rect x="116.84" y="62.82" width="8.11" height="8.11" transform="translate(-3.22 127.56) rotate(-55)"/>
+  <rect x="118.83" y="74.11" width="8.11" height="8.11" transform="translate(-11.62 134.03) rotate(-55.01)"/>
+  <rect x="107.53" y="76.1" width="8.11" height="8.11" transform="translate(-18.07 125.6) rotate(-55)"/>
+  <rect x="139.43" y="58.83" width="8.11" height="8.11" transform="translate(9.67 144.35) rotate(-55)"/>
+  <rect x="141.42" y="70.13" width="8.11" height="8.11" transform="translate(1.28 150.82) rotate(-55.01)"/>
+  <rect x="130.13" y="72.12" width="8.11" height="8.11" transform="translate(-5.18 142.39) rotate(-55)"/>
+  <rect x="132.12" y="83.42" width="8.11" height="8.11" transform="translate(-13.58 148.85) rotate(-55)"/>
+  <rect x="120.82" y="85.41" width="8.11" height="8.11" transform="translate(-20.04 140.43) rotate(-55)"/>
+  <rect x="152.72" y="68.14" width="8.11" height="8.11" transform="translate(7.72 159.21) rotate(-55)"/>
+  <rect x="154.71" y="79.43" width="8.11" height="8.11" transform="translate(-.69 165.65) rotate(-55)"/>
+  <rect x="143.42" y="81.42" width="8.11" height="8.11" transform="translate(-7.13 157.26) rotate(-55)"/>
+  <rect x="145.41" y="92.72" width="8.11" height="8.11" transform="translate(-15.56 163.65) rotate(-54.98)"/>
+  <rect x="134.11" y="94.71" width="8.11" height="8.11" transform="translate(-21.99 155.29) rotate(-55)"/>
+  <rect x="166.01" y="77.44" width="8.11" height="8.11" transform="translate(5.77 174.08) rotate(-55.01)"/>
+  <rect x="168" y="88.74" width="8.11" height="8.11" transform="translate(-2.65 180.5) rotate(-55)"/>
+  <rect x="156.7" y="90.73" width="8.11" height="8.11" transform="translate(-9.08 172.14) rotate(-55.01)"/>
+  <rect x="158.7" y="102.03" width="8.11" height="8.11" transform="translate(-17.49 178.57) rotate(-55.01)"/>
+  <rect x="147.4" y="104.02" width="8.11" height="8.11" transform="translate(-23.94 170.17) rotate(-55.01)"/>
+  <rect x="179.3" y="86.75" width="8.11" height="8.11" transform="translate(3.79 188.89) rotate(-54.99)"/>
+  <rect x="169.99" y="100.03" width="8.11" height="8.11" transform="translate(-11.06 186.93) rotate(-54.99)"/>
+  <rect x="160.69" y="113.32" width="8.11" height="8.11" transform="translate(-25.9 184.99) rotate(-55)"/>
+  <rect x="99.23" y="37.1" width="5.29" height="125.8" transform="translate(-38.93 76.47) rotate(-34.98)" fill="url(#Degradado_sin_nombre_19-4)" stroke="url(#Degradado_sin_nombre_42-4)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.68"/>
+  <rect x="65.75" y="49.53" width="8.11" height="8.11" transform="translate(-18.11 49.75) rotate(-35.02)"/>
+  <rect x="63.75" y="60.82" width="8.11" height="8.11" transform="translate(-24.95 50.63) rotate(-35)"/>
+  <rect x="75.05" y="62.82" width="8.11" height="8.11" transform="translate(-24.05 57.5) rotate(-35.02)"/>
+  <rect x="73.06" y="74.11" width="8.11" height="8.11" transform="translate(-30.89 58.36) rotate(-35)"/>
+  <rect x="84.36" y="76.1" width="8.11" height="8.11" transform="translate(-29.99 65.21) rotate(-35)"/>
+  <rect x="52.46" y="58.83" width="8.11" height="8.11" transform="translate(-25.85 43.78) rotate(-34.99)"/>
+  <rect x="50.47" y="70.13" width="8.11" height="8.11" transform="translate(-32.69 44.69) rotate(-35)"/>
+  <rect x="61.76" y="72.12" width="8.11" height="8.11" transform="translate(-31.79 51.52) rotate(-34.99)"/>
+  <rect x="59.77" y="83.42" width="8.11" height="8.11" transform="translate(-38.63 52.43) rotate(-35)"/>
+  <rect x="71.07" y="85.41" width="8.11" height="8.11" transform="translate(-37.73 59.27) rotate(-35)"/>
+  <rect x="39.17" y="68.14" width="8.11" height="8.11" transform="translate(-33.59 37.85) rotate(-35)"/>
+  <rect x="37.18" y="79.43" width="8.11" height="8.11" transform="translate(-40.43 38.75) rotate(-35)"/>
+  <rect x="48.47" y="81.42" width="8.11" height="8.11" transform="translate(-39.53 45.59) rotate(-35)"/>
+  <rect x="46.48" y="92.72" width="8.11" height="8.11" transform="translate(-46.37 46.49) rotate(-35)"/>
+  <rect x="57.78" y="94.71" width="8.11" height="8.11" transform="translate(-45.47 53.32) rotate(-35)"/>
+  <rect x="25.88" y="77.44" width="8.11" height="8.11" transform="translate(-41.33 31.91) rotate(-35)"/>
+  <rect x="23.89" y="88.74" width="8.11" height="8.11" transform="translate(-48.17 32.81) rotate(-35)"/>
+  <rect x="35.19" y="90.73" width="8.11" height="8.11" transform="translate(-47.27 39.64) rotate(-35)"/>
+  <rect x="33.19" y="102.02" width="8.11" height="8.11" transform="translate(-54.12 40.56) rotate(-35.01)"/>
+  <rect x="44.49" y="104.02" width="8.11" height="8.11" transform="translate(-53.21 47.38) rotate(-35)"/>
+  <rect x="21.9" y="100.03" width="8.11" height="8.11" transform="translate(-55.01 33.71) rotate(-35)"/>
+  <rect x="31.2" y="113.32" width="8.11" height="8.11" transform="translate(-60.95 41.45) rotate(-35)"/>
+</svg>
