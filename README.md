@@ -8,7 +8,7 @@ Proper feedback is also really appreciated.
 
 ## Documentation
 
-TBD
+[Read documentation here](https://docs.felis.gg/laptop/introduction)
 
 ## Download
 
@@ -18,10 +18,10 @@ Make sure that did download the release version, and not the source code since i
 ## Roadmap
 
 - Add ability to add/remove icons to and from desktop;
+- Refactor UI components to make code more readable;
 - Properly finish typings;
 - Make more built-in apps;
-- Add more functionality for device/laptop manipulation;
-- Refactor UI components to make code more readable;
+- Add more functionality for devices manipulation;
 
 ## Support
 
