@@ -67,7 +67,7 @@ jobs:
           mkdir -p ./temp/fd_laptop
           mkdir -p ./temp/fd_laptop/web/
           cp ./{LICENSE,README.md,fxmanifest.lua,init.lua,types.lua} ./temp/fd_laptop
-          cp -r ./{bridge,config,data,locales,modules,utils} ./temp/fd_laptop
+          cp -r ./{bridge,config,data,locales,modules,optional,utils,stream} ./temp/fd_laptop
           cp -r ./web/dist ./temp/fd_laptop/web/
           cd ./temp && zip -r ../fd_laptop.zip ./fd_laptop
 
