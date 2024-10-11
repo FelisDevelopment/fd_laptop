@@ -76,7 +76,7 @@ local function open(item, laptopId, installedDevices)
     devices = installedDevices
 
     lib.requestModel(`prop_laptop_facade`, 2000)
-    laptop = CreateObject(`prop_laptop_facade`, 0, 0, 0, false, false, false)
+    laptop = CreateObject(`prop_laptop_facade`, 0, 0, 0, true, false, false)
     SetEntityCollision(laptop, false, false)
 
     lib.playAnim(cache.ped, 'missheistdockssetup1clipboard@base', 'base', 8.0, -8.0, -1, 49, 0, false, 0, false)
