@@ -5,7 +5,7 @@ game 'gta5'
 
 author 'Felis Development'
 description ''
-version '0.1.0'
+version '0.2.0'
 repository 'https://github.com/FelisDevelopment/fd_laptop'
 
 dependencies {
