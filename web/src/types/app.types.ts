@@ -10,12 +10,17 @@ export interface App {
   isInstalling?: boolean
   isDefaultApp?: boolean
   needsUpdate?: boolean
+  ignoreInternalLoading?: boolean
   keepAlive?: boolean
   deviceId?: string
   appstore?: AppStoreOptions
   windowActions: AppWindowActions
   windowDimensions?: WindowDimensions
   windowDefaultStates?: WindowDefaultStates
+  onUse?: any
+  onUseServer?: any
+  onClose?: any
+  onCloseServer?: any
 }
 
 export interface AppStoreOptions {

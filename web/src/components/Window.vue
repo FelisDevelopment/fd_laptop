@@ -7,6 +7,7 @@ import ProgressSpinner from 'primevue/progressspinner'
 
 import InternalAppComponent from './windows/InternalAppComponent.vue'
 import IframeAppComponent from './windows/IframeAppComponent.vue'
+import { useLaptop } from '../stores/laptop.store'
 
 const props = defineProps<{
   appWindow: Window
@@ -14,6 +15,7 @@ const props = defineProps<{
 }>()
 
 const apps = useApplications()
+const laptop = useLaptop()
 
 const appWindow = useTemplateRef<HTMLDivElement>('window')
 const toolbar = useTemplateRef<HTMLDivElement>('toolbar')
@@ -104,7 +106,7 @@ const close = () => {
   apps.close(app.id)
 }
 
-onMounted(() => {
+onMounted(async () => {
   useResizeObserver(appWindow, (entries) => {
     const entry = entries[0]
     const { width: newWidth, height: newHeight } = entry.contentRect
@@ -114,11 +116,15 @@ onMounted(() => {
     windowWidth.value = newWidth
     windowHeight.value = newHeight
   })
+
+  if (app.ignoreInternalLoading) {
+    isLoading.value = false
+  }
 })
 </script>
 <template>
   <div
-    v-show="!state.isMinimized"
+    v-show="!state.isMinimized && !props.appWindow.isHidden"
     ref="window"
     @click.prevent="apps.toggleActiveState(app.id, true)"
     class="absolute flex flex-1 flex-col overflow-hidden rounded-t-lg bg-gray-100/70 shadow-md backdrop-blur-xl dark:bg-gray-800/70"
@@ -166,27 +172,23 @@ onMounted(() => {
     <div v-if="isLoading" class="flex flex-1 items-center justify-center overflow-hidden">
       <ProgressSpinner />
     </div>
-    <div class="flex flex-1 overflow-hidden" v-show="!isLoading">
-      <component
-        v-if="!app.keepAlive"
-        :is="app.isInternal ? InternalAppComponent : IframeAppComponent"
+    <div class="relative flex flex-1 overflow-hidden" v-show="!isLoading">
+      <InternalAppComponent
+        v-if="app.isInternal"
         :app="app"
         :metadata="metadata"
         :appReady="appReady"
         :changeWindowTitle="changeWindowTitle"
         class="flex flex-1 overflow-hidden"
-      ></component>
-      <keep-alive v-else>
-        <component
-          v-if="!app.keepAlive"
-          :is="app.isInternal ? InternalAppComponent : IframeAppComponent"
-          :app="app"
-          :metadata="metadata"
-          :appReady="appReady"
-          :changeWindowTitle="changeWindowTitle"
-          class="flex flex-1 overflow-hidden"
-        ></component>
-      </keep-alive>
+      />
+      <IframeAppComponent
+        v-else
+        :app="app"
+        :metadata="metadata"
+        :appReady="appReady"
+        :changeWindowTitle="changeWindowTitle"
+        class="flex flex-1 overflow-hidden"
+      />
     </div>
   </div>
 </template>

@@ -1,4 +1,4 @@
-import type { WifiNetwork } from '../types/network.types'
+import type { ConnectionStatus, WifiNetwork } from '../types/network.types'
 import { useNuiEvent } from '../composables/useNuiEvent'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
@@ -36,7 +36,7 @@ export const useConnection = defineStore('wifi', () => {
     })
   }
 
-  const forApps = computed(() => ({
+  const forApps = computed<ConnectionStatus>(() => ({
     isConnected: isConnected.value,
     connectedTo: connectedTo.value,
     airplaneMode: airplaneMode.value,

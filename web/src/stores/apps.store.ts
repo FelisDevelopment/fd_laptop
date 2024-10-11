@@ -162,6 +162,11 @@ export const useApplications = defineStore('applications', () => {
       return
     }
 
+    if (windows.value[id] && windows.value[id].app.keepAlive && windows.value[id].isHidden) {
+      windows.value[id].isHidden = false
+      return
+    }
+
     if (windows.value[id]) {
       notyf.show({
         summary: locale.t('open_already_open_title'),
@@ -192,6 +197,11 @@ export const useApplications = defineStore('applications', () => {
   const close = (id: string) => {
     if (!windows.value[id]) return
 
+    if (windows.value[id].app.keepAlive) {
+      windows.value[id].isHidden = true
+      return
+    }
+
     delete windows.value[id]
   }
 
@@ -218,8 +228,16 @@ export const useApplications = defineStore('applications', () => {
     app.isInstalled = false
     app.isInstalling = false
 
+    if (windows.value[id]) {
+      close(id)
+    }
+
     return
   }
+
+  const shownWindows = computed(() => {
+    return Object.values(windows.value).filter((window) => !window.isHidden)
+  })
 
   return {
     open,
@@ -229,6 +247,7 @@ export const useApplications = defineStore('applications', () => {
     userApps,
     addNewApp,
     removeApp,
+    shownWindows,
     markAsInstalled,
     markAsUninstalled,
     toggleActiveState,

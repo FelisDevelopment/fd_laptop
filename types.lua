@@ -30,8 +30,9 @@
 ---@field name string
 ---@field icon string
 ---@field isDefaultApp boolean
----@field isInstalled boolean
----@field isInternal boolean
+---@field isInstalled? boolean
+---@field isInternal? boolean
+---@field ignoreInternalLoading? boolean
 ---@field deviceId? string
 ---@field needsUpdate? boolean
 ---@field resourceName? string
@@ -43,6 +44,8 @@
 ---@field windowDefaultStates? WindowDefaultStates
 ---@field onUse? function
 ---@field onUseServer? function
+---@field onClose? function
+---@field onCloseServer? function
 
 ---@class WifiNetwork
 ---@field ssid string
@@ -60,3 +63,10 @@
 ---@class LaptopDevice
 ---@field slot number
 ---@field metadata table<LaptopDeviceMetadata>
+
+---@class UserSettings
+---@field background string
+---@field dark_mode boolean
+---@field username string
+---@field profile_picture string
+---@field installedApps table<string>

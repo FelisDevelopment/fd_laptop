@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 import { useDevelopment } from './development.store'
 import { useNuiEvent } from '../composables/useNuiEvent'
-import type { UpdateProfileEvent, UserSettingsEvent } from '../types/settings.types'
+import type { UpdateProfileEvent, UserSettings, UserSettingsEvent } from '../types/settings.types'
 
 export const useSettings = defineStore('settings', () => {
   const development = useDevelopment()
@@ -35,7 +35,7 @@ export const useSettings = defineStore('settings', () => {
     }
   }
 
-  const forApps = computed(() => ({
+  const forApps = computed<UserSettings>(() => ({
     isDarkMode: isDarkMode.value,
     isDoNotDisturb: doNotDisturb.value,
     username: username.value,

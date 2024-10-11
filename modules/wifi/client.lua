@@ -77,6 +77,10 @@ exports('getConnectedNetwork', getConnectedNetwork)
 ---@param sendNuiMessage? boolean
 ---@return boolean, string | nil
 local function connectTo(ssid, password, sendNuiMessage)
+    if type(sendNuiMessage) ~= 'boolean' then
+        sendNuiMessage = true
+    end
+
     if not networks[ssid] then
         return false, 'Network not found'
     end
@@ -114,6 +118,10 @@ exports('connectTo', connectTo)
 ---@param sendNuiMessage? boolean
 ---@return boolean, string | nil
 local function disconnect(sendNuiMessage)
+    if type(sendNuiMessage) ~= 'boolean' then
+        sendNuiMessage = true
+    end
+
     if not isConnected() then
         return false, 'Not connected'
     end
@@ -162,7 +170,7 @@ RegisterNuiCallback('toggleVpn', function(data, cb)
 end)
 
 RegisterNUICallback('disconnect', function(_, cb)
-    local success, error = disconnect()
+    local success, error = disconnect(false)
 
     cb({
         success = success,
@@ -171,7 +179,7 @@ RegisterNUICallback('disconnect', function(_, cb)
 end)
 
 RegisterNUICallback('connectTo', function(data, cb)
-    local success, error = connectTo(data.ssid, data.password)
+    local success, error = connectTo(data.ssid, data.password, false)
 
     cb({
         success = success,

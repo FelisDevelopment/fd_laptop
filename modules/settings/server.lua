@@ -76,6 +76,11 @@ local function loadUserSettings(identifier)
         installedApps = profile.installedApps
     }
 end
+exports('getUserSettings', function(identifier)
+    local userSettings = loadUserSettings(identifier)
+
+    return userSettings
+end)
 
 ---@return boolean | string[]
 local function getInstalledApps(source)

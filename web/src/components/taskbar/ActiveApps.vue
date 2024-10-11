@@ -20,7 +20,7 @@ const toggleStates = (id: string) => {
 <template>
   <div class="z-10 flex flex-1 gap-1 py-1">
     <ActiveAppButton
-      v-for="window in apps.windows"
+      v-for="window in apps.shownWindows"
       v-tooltip.top="window.app.name"
       :key="window.app.id"
       :state="window.state"

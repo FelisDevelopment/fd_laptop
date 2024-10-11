@@ -1,3 +1,4 @@
+---@type table<string, LaptopApp>
 return {
     ['app_store'] = {
         id = 'app_store',

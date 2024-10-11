@@ -64,6 +64,10 @@ local function saveAppearance(appearance)
     return success, error
 end
 
+exports('getUserSettings', function()
+    return userSettings
+end)
+
 RegisterNetEvent('fd_laptop:client:settingsReady', function(settings)
     userSettings = settings
 

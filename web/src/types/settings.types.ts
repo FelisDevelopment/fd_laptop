@@ -4,6 +4,14 @@ export interface Settings {
   notificationsEnabled: boolean
 }
 
+export interface UserSettings {
+  isDarkMode: boolean
+  isDoNotDisturb: boolean
+  username: string
+  profilePicture?: string
+  backgroundImage?: string
+}
+
 export interface UserSettingsEvent {
   background: string
   dark_mode: boolean

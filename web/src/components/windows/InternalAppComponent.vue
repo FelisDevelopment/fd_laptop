@@ -2,11 +2,11 @@
 import type { InternalApp } from '../../types/app.types'
 import type { InternalAppWindowBinds } from '../../types/window.types'
 
-defineProps<InternalAppWindowBinds>()
+defineProps<InternalAppWindowBinds<InternalApp>>()
 </script>
 <template>
   <component
-    :is="(app as InternalApp).component"
+    :is="app.component"
     :appReady="appReady"
     :changeWindowTitle="changeWindowTitle"
     :metadata="metadata"

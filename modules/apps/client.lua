@@ -110,6 +110,53 @@ local function userInstalledApps(payload)
     end
 end
 
+---@param id string
+local function appOpened(id)
+    if not apps[id] then
+        return
+    end
+
+    if not apps[id].onUseServer and not apps[id].onUse then
+        return
+    end
+
+    if apps[id].onUse then
+        apps[payload].onUse()
+    end
+
+    TriggerServerEvent('fd_laptop:server:appOpened', id)
+end
+
+---@param id string
+local function appClosed(id)
+    if not apps[id] then
+        return
+    end
+
+    if not apps[id].onCloseServer and not apps[id].onClose then
+        return
+    end
+
+    if apps[id].onClose then
+        apps[payload].onClose()
+    end
+
+    TriggerServerEvent('fd_laptop:server:appClosed', id)
+end
+
+---@param id string
+---@param message any
+local function sendAppMessage(id, message)
+    SendNUIMessage({
+        action = 'sendAppMessage',
+        data = {
+            id = id,
+            message = message
+        }
+    })
+end
+exports('sendAppMessage', sendAppMessage)
+
 RegisterNetEvent('fd_laptop:client:appsReady', initApps)
 RegisterNetEvent('fd_laptop:client:newApp', addNewApp)
 RegisterNetEvent('fd_laptop:client:removeApp', removeApp)
@@ -131,4 +178,16 @@ RegisterNUICallback('uninstallApp', function(data, cb)
         success = success,
         error = error
     })
+end)
+
+RegisterNUICallback('appOpened', function(data, cb)
+    appOpened(data.id)
+
+    cb(1)
+end)
+
+RegisterNUICallback('appClosed', function(data, cb)
+    appClosed(data.id)
+
+    cb(1)
 end)

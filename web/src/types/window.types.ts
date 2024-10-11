@@ -26,10 +26,11 @@ export interface Window {
   dimensions: WindowDimensions
   position: [number, number]
   metadata?: Record<string, any>
+  isHidden?: boolean
 }
 
-export interface InternalAppWindowBinds {
-  app: AppType
+export interface InternalAppWindowBinds<T = unknown> {
+  app: T
   metadata?: Record<string, any> | undefined
   appReady: () => void
   changeWindowTitle: (newTitle: string) => void

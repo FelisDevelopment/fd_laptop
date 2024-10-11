@@ -1,4 +1,3 @@
-
 local availableBackgrounds = require 'config.backgrounds'
 local laptopSettings = require 'config.laptop'
 local inventory = require 'bridge.inventory'
@@ -132,17 +131,6 @@ local function startItemCheck()
         end
     end)
 end
-
-local function sendAppMessage(id, message)
-    SendNUIMessage({
-        action = 'sendAppMessage',
-        data = {
-            id = id,
-            message = message
-        }
-    })
-end
-exports('sendAppMessage', sendAppMessage)
 
 local function getDevices()
     if not currentlyOpen then

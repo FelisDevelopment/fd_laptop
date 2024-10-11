@@ -3,14 +3,15 @@ import type { InternalAppWindowBinds } from '../../types/window.types'
 import { useConnection } from '../../stores/connection.store'
 import { useNotifications } from '../../stores/notifications.store'
 import { useSettings } from '../../stores/settings.store'
-import { useEventBus, useEventListener } from '@vueuse/core'
-import { onMounted, useTemplateRef, type CSSProperties } from 'vue'
+import { onKeyUp, useEventBus, useEventListener } from '@vueuse/core'
+import { onBeforeUnmount, onMounted, useTemplateRef, type CSSProperties } from 'vue'
 import type { AppMessage, ExternalApp } from '../../types/app.types'
 import { parentResourceName } from '../../utils/parentResource.utils'
 import { useLaptop } from '../../stores/laptop.store'
 import { useNuiEvent } from '../../composables/useNuiEvent'
+import { useApi } from '../../composables/useApi'
 
-const props = defineProps<InternalAppWindowBinds>()
+const props = defineProps<InternalAppWindowBinds<ExternalApp>>()
 
 const laptop = useLaptop()
 const settings = useSettings()
@@ -90,6 +91,7 @@ const iframeEvents = () => {
   if (!iframe.value) return
 
   const childEvents: Record<string, (data?: any) => void> = {
+    parentReady: () => childComponentsLoaded(),
     appReady: () => markAsReady(),
     changeWindowTitle: (newTitle: string) => props.changeWindowTitle(newTitle),
     getSettings: () => getSettings(),
@@ -99,6 +101,12 @@ const iframeEvents = () => {
   }
 
   useEventListener(iframe.value.contentWindow!, 'message', (event: MessageEvent) => {
+    if (typeof event.data === 'string') {
+      if (!childEvents[event.data]) return
+
+      return childEvents[event.data](event.data)
+    }
+
     const { action, data } = event.data
 
     if (!childEvents[action]) return
@@ -132,7 +140,64 @@ const iframeLoaded = () => {
   iframeBindings()
 }
 
-onMounted(() => {
+const childComponentsLoaded = () => {
+  if (props.app.ui.includes('rahe-')) {
+    raheOverrides()
+  }
+
+  if (props.app.ui.includes('kub_')) {
+    kubOverrides()
+  }
+}
+
+const kubOverrides = (show: boolean = true) => {
+  iframe.value!.contentWindow?.postMessage(
+    {
+      type: show ? 'showUI' : 'hideUI'
+    },
+    '*'
+  )
+
+  if (show) {
+    const body = iframe.value!.contentWindow?.document.body!
+
+    body.firstElementChild?.setAttribute(
+      'style',
+      'position:relative; margin: 0; left: 0; top: 0; width: 100%; height: 100%; max-height: auto; max-width: auto; transform: none;'
+    )
+
+    const head = iframe.value!.contentWindow?.document.head!
+    const style = head.appendChild(document.createElement('style'))
+    style.setAttribute('type', 'text/css')
+    style.appendChild(
+      document.createTextNode(
+        '.border-image { border-image: unset !important; } .ipad{border: unset !important;} .ipad::after{display:none !important;}'
+      )
+    )
+  }
+}
+
+const raheOverrides = (show: boolean = true) => {
+  iframe.value!.contentWindow?.postMessage(
+    {
+      action: show ? 'showMenu' : 'hideMenu'
+    },
+    '*'
+  )
+
+  if (show) {
+    const body = iframe.value!.contentWindow?.document.body!
+
+    body.firstElementChild?.setAttribute(
+      'style',
+      'position:relative; margin: 0; left: 0; top: 0; width: 100%; height: 100%;'
+    )
+
+    body.getElementsByClassName('tablet-frame')[0]?.remove()
+  }
+}
+
+onMounted(async () => {
   settingsBus.on((event) => {
     if (event !== 'updated') return
 
@@ -156,12 +221,58 @@ onMounted(() => {
       '*'
     )
   })
+
+  if (props.app.onUse || props.app.onUseServer) {
+    await useApi<null>(
+      'appOpened',
+      {
+        method: 'POST',
+        body: JSON.stringify({ id: props.app.id })
+      },
+      undefined,
+      null
+    )
+  }
+
+  onKeyUp(
+    'Escape',
+    () => {
+      if (!laptop.isOpen) return
+
+      laptop.close(true)
+    },
+    {
+      target: iframe.value!.contentWindow?.window
+    }
+  )
 })
 
 useNuiEvent<AppMessage>('sendAppMessage', (data: AppMessage) => {
   if (data.id !== props.app.id) return
 
   postMessage(data.message)
+})
+
+onBeforeUnmount(async () => {
+  if (props.app.ui.includes('rahe-')) {
+    raheOverrides(false)
+  }
+
+  if (props.app.ui.includes('kub-')) {
+    kubOverrides(false)
+  }
+
+  if (props.app.onClose || props.app.onCloseServer) {
+    await useApi<null>(
+      'appClosed',
+      {
+        method: 'POST',
+        body: JSON.stringify({ id: props.app.id })
+      },
+      undefined,
+      null
+    )
+  }
 })
 </script>
 <template>
