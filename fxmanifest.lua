@@ -2,11 +2,14 @@ fx_version 'cerulean'
 use_experimental_fxv2_oal 'yes'
 lua54 'yes'
 game 'gta5'
+this_is_a_map 'yes'
 
 author 'Felis Development'
 description ''
 version '0.1.0'
 repository 'https://github.com/FelisDevelopment/fd_laptop'
+
+data_file 'DLC_ITYP_REQUEST' 'stream/prop_laptop_facade'
 
 dependencies {
     '/onesync',
@@ -21,8 +24,7 @@ files {
     'bridge/**/imports/client.lua',
     'bridge/**/client.lua',
     'bridge/options/*',
-    'bridge/framework.lua',
-    'bridge/inventory.lua'
+    'bridge/*.lua',
 }
 
 ui_page 'web/dist/index.html'
