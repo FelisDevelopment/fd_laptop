@@ -1,3 +1,4 @@
+---@return string[]
 return {
     "https://avatars.githubusercontent.com/u/69203817",
     "https://avatars.githubusercontent.com/u/63330426",

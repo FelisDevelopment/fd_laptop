@@ -1,3 +1,4 @@
+---@return BackgroundSource[]
 return {
     {
         src = '1.jpg'

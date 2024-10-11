@@ -1,5 +1,11 @@
-local userSettings, isProcessing
+---@type UserSettings | nil
+local userSettings
 
+---@type boolean
+local isProcessing
+
+---@param username string
+---@param profilePicture string
 local function sendProfileUpdate(username, profilePicture)
     SendNUIMessage({
         action = 'updateProfile',
@@ -10,6 +16,7 @@ local function sendProfileUpdate(username, profilePicture)
     })
 end
 
+---@param settings UserSettings
 local function sendSettings(settings)
     SendNUIMessage({
         action = 'updateSettings',
@@ -19,6 +26,7 @@ end
 
 ---@param nickname string
 ---@param profilePicture string
+---@return boolean, string | nil
 local function updateProfile(nickname, profilePicture)
     if isProcessing then return false, locale('in_a_hurry') end
     isProcessing = true
@@ -36,6 +44,8 @@ local function updateProfile(nickname, profilePicture)
     return success, error
 end
 
+---@param background string
+---@return boolean, string | nil
 local function saveBackground(background)
     if isProcessing then return false, locale('in_a_hurry') end
     isProcessing = true
@@ -50,6 +60,8 @@ local function saveBackground(background)
     return success, error
 end
 
+---@param appearance boolean
+---@return boolean, string | nil
 local function saveAppearance(appearance)
     if isProcessing then return false, locale('in_a_hurry') end
     isProcessing = true
@@ -64,6 +76,7 @@ local function saveAppearance(appearance)
     return success, error
 end
 
+---@return UserSettings | nil
 exports('getUserSettings', function()
     return userSettings
 end)
@@ -82,6 +95,8 @@ RegisterNUICallback('updateUserSettings', function(data, cb)
         error = error
     })
 
+    if not userSettings then return end
+
     sendSettings(userSettings)
 end)
 
@@ -93,6 +108,8 @@ RegisterNUICallback('saveBackground', function(data, cb)
         error = error
     })
 
+    if not userSettings then return end
+
     sendSettings(userSettings)
 end)
 
@@ -103,6 +120,8 @@ RegisterNUICallback('saveAppearance', function(data, cb)
         success = success,
         error = error
     })
+
+    if not userSettings then return end
 
     sendSettings(userSettings)
 end)

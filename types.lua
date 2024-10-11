@@ -70,3 +70,6 @@
 ---@field username string
 ---@field profile_picture string
 ---@field installedApps table<string>
+
+---@class BackgroundSource
+---@field src string

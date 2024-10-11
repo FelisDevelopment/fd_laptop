@@ -1,9 +1,18 @@
-local fakeNames = require 'data.fakeNames'
-local fakeAvatars = require 'data.fakeAvatars'
-local backgrounds = require 'config.backgrounds'
 local framework = require 'bridge.framework'
+
+---@type string[]
+local fakeNames = require 'data.fakeNames'
+
+---@type string[]
+local fakeAvatars = require 'data.fakeAvatars'
+
+---@type BackgroundSource[]
+local backgrounds = require 'config.backgrounds'
+
+---@type boolean
 local isProcessing
 
+---@return string
 local function generateUsername()
     local username = ('%s%s'):format(fakeNames[math.random(1, #fakeNames)], math.random(1000, 9999))
 
@@ -16,10 +25,13 @@ local function generateUsername()
     return username
 end
 
+--- @return string
 local function generateProfilePicture()
     return fakeAvatars[math.random(1, #fakeAvatars)]
 end
 
+---@param identifier string
+---@return UserSettings | nil
 local function loadUserSettings(identifier)
     if not identifier then return end
 
@@ -76,11 +88,7 @@ local function loadUserSettings(identifier)
         installedApps = profile.installedApps
     }
 end
-exports('getUserSettings', function(identifier)
-    local userSettings = loadUserSettings(identifier)
-
-    return userSettings
-end)
+exports('getUserSettings', loadUserSettings)
 
 ---@return boolean | string[]
 local function getInstalledApps(source)
@@ -106,6 +114,7 @@ local function getInstalledApps(source)
     return installedApps
 end
 
+---@return boolean, string | nil
 local function saveAppearance(source, isDarkMode)
     local identifier = framework.getIdentifier(source)
 
@@ -128,6 +137,7 @@ local function saveAppearance(source, isDarkMode)
     return true, nil
 end
 
+---@return boolean, string | nil
 local function saveUserProfile(source, username, profilePicture)
     local identifier = framework.getIdentifier(source)
 
@@ -170,6 +180,7 @@ local function saveUserProfile(source, username, profilePicture)
     return true, nil
 end
 
+---@return boolean, string | nil
 local function saveBackground(source, background)
     local identifier = framework.getIdentifier(source)
 

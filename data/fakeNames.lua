@@ -1,3 +1,4 @@
+---@return string[]
 return {
     "aware",
     "merry",
