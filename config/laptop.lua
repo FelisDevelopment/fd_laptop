@@ -1,5 +1,5 @@
 return {
-    debug = true,
+    debug = false,
 
     -- Use server time, instead of real-life time.
     useServerTime = true,
