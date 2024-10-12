@@ -1,8 +1,12 @@
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+NDCore = exports.ND_Core
+
+RegisterNetEvent('ND:characterLoaded', function()
+    LocalPlayer.state.isLoggedIn = true
     TriggerServerEvent('fd_laptop:server:playerLoaded')
 end)
 
-RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+RegisterNetEvent('ND:characterUnloaded', function()
+    LocalPlayer.state.isLoggedIn = false
     TriggerServerEvent('fd_laptop:server:playerUnloaded')
 end)
 

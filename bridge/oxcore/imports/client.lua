@@ -1,13 +1,18 @@
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+Ox = require '@ox_core.lib.init'
+local playerLoaded
+
+AddEventHandler('ox:playerLoaded', function()
+    playerLoaded = true
     TriggerServerEvent('fd_laptop:server:playerLoaded')
 end)
 
-RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+AddEventHandler('ox:playerLogout', function()
+    playerLoaded = false
     TriggerServerEvent('fd_laptop:server:playerUnloaded')
 end)
 
 RegisterNetEvent('fd_laptop:client:appsReady', function()
-    if not LocalPlayer.state.isLoggedIn then return end
+    if not playerLoaded then return end
 
     TriggerServerEvent('fd_laptop:server:playerLoaded')
 end)
