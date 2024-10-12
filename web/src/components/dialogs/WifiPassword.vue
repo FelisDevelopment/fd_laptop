@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useLocale } from '../../stores/locale.store'
 import { inject, ref } from 'vue'
+import Button from 'primevue/button'
+import InputText from 'primevue/inputtext'
 
 const dialogRef = inject('dialogRef')
 const locale = useLocale()
