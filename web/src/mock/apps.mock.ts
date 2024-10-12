@@ -2,9 +2,9 @@ import type { AppType } from '../types/app.types'
 
 export const MockedApps: AppType[] = [
   {
-    id: 'marketplace',
-    name: 'Marketplace',
-    icon: 'marketplace.png',
+    id: 'app_store',
+    name: 'App Store',
+    icon: 'app_store.svg',
     isDefaultApp: true,
     isInternal: true,
     windowDimensions: {
