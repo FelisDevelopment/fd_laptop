@@ -1,3 +1,4 @@
+import { MockedLocales } from '../mock/locales.mock'
 import { useApi } from '../composables/useApi'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
@@ -14,9 +15,7 @@ export const useLocale = defineStore('locale', () => {
         method: 'GET'
       },
       undefined,
-      {
-        foo: 'bar'
-      }
+      MockedLocales
     )
 
     if (!data.value) return

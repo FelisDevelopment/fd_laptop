@@ -51,6 +51,7 @@ export const useLaptop = defineStore('laptop', () => {
       const apps = useApplications()
 
       await apps.initApps()
+      await locale.fetchLocales()
 
       return
     }
