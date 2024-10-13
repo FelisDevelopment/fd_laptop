@@ -44,11 +44,10 @@ const connect = async (ssid: string, password?: string) => {
 
   const { success, error } = data.value as ConnectionResponse
 
-  bus.emit('updated')
-
   isConnecting.value = false
 
   if (!success) {
+    bus.emit('updated')
     return notif.show({
       summary: locale.t('settings_wifi_connection_error'),
       detail: error!
@@ -57,6 +56,7 @@ const connect = async (ssid: string, password?: string) => {
 
   connection.markAsConnected(ssid)
 
+  bus.emit('updated')
   notif.show({
     summary: locale.t('settings_wifi_connection_succ'),
     detail: `${locale.t('settings_wifi_connected_to')}${ssid}`
@@ -122,11 +122,10 @@ const disconnect = async () => {
 
   const { success, error } = data.value as ConnectionResponse
 
-  bus.emit('updated')
-
   isConnecting.value = false
 
   if (!success) {
+    bus.emit('updated')
     notif.show({
       summary: locale.t('settings_wifi_connection_error'),
       detail: error!
@@ -136,6 +135,7 @@ const disconnect = async () => {
   connection.markAsDisconnected()
   connection.connectedToVpn = false
 
+  bus.emit('updated')
   notif.show({
     summary: locale.t('settings_wifi_disconnect_succ'),
     detail: locale.t('settings_wifi_disconnect_succ_detail')
@@ -160,13 +160,14 @@ const toggleVpn = async (status: boolean) => {
 
   const { success } = data.value as ConnectionResponse
 
-  bus.emit('updated')
-
   if (!success) {
     connection.connectedToVpn = false
+    bus.emit('updated')
 
     return
   }
+
+  bus.emit('updated')
 
   notif.show({
     summary: 'VPN connection',
@@ -185,6 +186,8 @@ watchDebounced(
 watchDebounced(
   () => connection.airplaneMode,
   (value) => {
+    bus.emit('updated')
+    
     if (value) {
       disconnect()
 
