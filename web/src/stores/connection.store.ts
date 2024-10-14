@@ -38,7 +38,7 @@ export const useConnection = defineStore('wifi', () => {
 
   const forApps = computed<ConnectionStatus>(() => ({
     isConnected: isConnected.value,
-    connectedTo: connectedTo.value,
+    connectedTo: connectedTo.value !== undefined ? JSON.parse(JSON.stringify(connectedTo.value)) : undefined,
     airplaneMode: airplaneMode.value,
     connectedToVpn: connectedToVpn.value
   }))
