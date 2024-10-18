@@ -64,7 +64,15 @@ useNuiEvent<WifiNetwork>('addNetwork', (data: WifiNetwork) => {
 useNuiEvent<string>('removeNetwork', (ssid: string) => {
   const connection = useConnection()
 
+  const oldConnections = connection.networks
   connection.networks = connection.networks.filter((network) => network.ssid !== ssid)
+
+  // Check to see if the networks array was changed via the filter operation.
+  // If it was, let the network event bus be aware of this change.
+  if(oldConnections.length !== connection.networks.length) {
+    const networkBus = useEventBus('network')
+    networkBus.emit('updated')
+  }
 })
 
 useNuiEvent<string>('connect', (ssid: string) => {
