@@ -6,7 +6,7 @@ this_is_a_map 'yes'
 
 author 'Felis Development'
 description ''
-version '0.2.5'
+version '0.2.6'
 repository 'https://github.com/FelisDevelopment/fd_laptop'
 
 data_file 'DLC_ITYP_REQUEST' 'stream/prop_laptop_facade'
