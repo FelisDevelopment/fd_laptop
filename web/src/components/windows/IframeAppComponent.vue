@@ -28,6 +28,15 @@ const postMessage = (data: any) => {
   iframe.value.contentWindow?.postMessage(data, '*')
 }
 
+const getAppData = () => {
+  if (!iframe.value) return
+
+  postMessage({
+    action: `${props.app.id}:appData`,
+    data: JSON.stringify(props.app)
+  })
+}
+
 const getSettings = () => {
   if (!iframe.value) return
 
@@ -94,6 +103,7 @@ const iframeEvents = () => {
     parentReady: () => childComponentsLoaded(),
     appReady: () => markAsReady(),
     changeWindowTitle: (newTitle: string) => props.changeWindowTitle(newTitle),
+    getAppData: () => getAppData(),
     getSettings: () => getSettings(),
     getNetworkSettings: () => getNetworkSettings(),
     getDevices: () => getInstalledDevices(),
