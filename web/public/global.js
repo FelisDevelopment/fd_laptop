@@ -22,6 +22,36 @@ if (!globalThis.parentReady) {
     )
   }
 
+  const getAppData = () => {
+    return new Promise((resolve, reject) => {
+      globalThis.postMessage(
+        {
+          action: 'getAppData',
+          appId: globalThis.appId
+        },
+        '*'
+      )
+  
+      const rejection = setTimeout(() => {
+        reject('Unable to fetch app data')
+        globalThis.removeEventListener('message', handler)
+      }, 5000)
+  
+      const handler = (event) => {
+        const { action, data } = event.data
+  
+        if (action === `${globalThis.appId}:appData`) {
+          clearTimeout(rejection)
+          globalThis.removeEventListener('message', handler)
+  
+          resolve(data)
+        }
+      }
+  
+      globalThis.addEventListener('message', handler)
+    })
+  }
+
   const getSettings = () => {
     return new Promise((resolve, reject) => {
       globalThis.postMessage(
@@ -159,6 +189,7 @@ if (!globalThis.parentReady) {
 
   globalThis.appReady = appReady
   globalThis.changeWindowTitle = changeWindowTitle
+  globalThis.getAppData = getAppData
   globalThis.getSettings = getSettings
   globalThis.onSettingsChange = onSettingsChange
   globalThis.onNetworkChange = onNetworkChange
