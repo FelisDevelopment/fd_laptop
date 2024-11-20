@@ -147,7 +147,6 @@ RegisterNetEvent('fd_laptop:server:appOpened', appOpened)
 
 
 local function appClosed(id)
-    print('triggered close', id)
     local src = source
 
     if not laptopApps[id] then
