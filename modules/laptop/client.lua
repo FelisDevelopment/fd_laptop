@@ -113,6 +113,7 @@ local function close(dontSend)
         action = 'closeLaptop'
     })
 end
+exports('close', close)
 
 local function startItemCheck()
     if not laptopItem then return end
