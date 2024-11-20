@@ -157,6 +157,15 @@ local function sendAppMessage(id, message)
 end
 exports('sendAppMessage', sendAppMessage)
 
+---@param id string
+local function requestAppClosing(id)
+    SendNUIMessage({
+        action = 'requestAppClosing',
+        data = id
+    })
+end
+exports('closeApp', requestAppClosing)
+
 RegisterNetEvent('fd_laptop:client:appsReady', initApps)
 RegisterNetEvent('fd_laptop:client:newApp', addNewApp)
 RegisterNetEvent('fd_laptop:client:removeApp', removeApp)

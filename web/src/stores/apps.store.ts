@@ -285,3 +285,9 @@ useNuiEvent<string>('appInstalled', (payload: string) => {
 
   apps.markAsInstalled(payload)
 })
+
+useNuiEvent<string>('requestAppClosing', (payload: string) => {
+  const apps = useApplications()
+
+  apps.close(payload)
+})
