@@ -3,6 +3,7 @@ import { useLaptop } from '../stores/laptop.store'
 import { useDevelopment } from '../stores/development.store'
 import { useNotifications } from '../stores/notifications.store'
 import SplitButton from 'primevue/splitbutton'
+import { faker } from '@faker-js/faker'
 
 const dev = useDevelopment()
 const noticiation = useNotifications()
@@ -22,8 +23,7 @@ const items = [
     command: () =>
       noticiation.show({
         summary: 'Push Notification',
-        detail:
-          'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatibus deleniti illo maxime recusandae quod facere nemo. Facilis quo nemo culpa!'
+        detail: faker.lorem.sentence({ min: 3, max: 10 })
       })
   },
   {
