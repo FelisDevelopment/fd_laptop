@@ -17,7 +17,7 @@ Make sure that did download the release version, and not the source code since i
 
 ## Roadmap
 
-- ~~ Add ability to add/remove icons to and from desktop; ~~
+- ~~Add ability to add/remove icons to and from desktop;~~
 - Refactor UI components to make code more readable;
 - Properly finish typings;
 - Make more built-in apps;
