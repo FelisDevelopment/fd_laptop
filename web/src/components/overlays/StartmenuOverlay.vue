@@ -3,15 +3,20 @@ import type { AppType } from '../../types/app.types'
 import { useSettings } from '../../stores/settings.store'
 import { useApplications } from '../../stores/apps.store'
 import { onClickOutside } from '@vueuse/core'
-import { ref } from 'vue'
+import { computed, ref, useTemplateRef } from 'vue'
 import { useLaptop } from '../../stores/laptop.store'
 import { iconUrl } from '../../utils/url.utils'
+import ContextMenu from 'primevue/contextmenu'
 import Avatar from 'primevue/avatar'
+import { useLocale } from '../../stores/locale.store'
 
-defineProps({
+const props = defineProps({
   isOpen: {
     type: Boolean,
     default: false
+  },
+  parent: {
+    type: HTMLDivElement
   }
 })
 
@@ -20,6 +25,42 @@ const emit = defineEmits(['close'])
 const apps = useApplications()
 const settings = useSettings()
 const laptop = useLaptop()
+const locale = useLocale()
+
+const selectedApp = ref<string>()
+const contextMenu = useTemplateRef<any>('contextMenu')
+const contextMenuItems = computed(() => [
+  {
+    label: locale.t('create_shortcut_label'),
+    command: () => {
+      apps.addDesktopIcon(selectedApp.value!)
+
+      emit('close')
+    }
+  }
+])
+
+const openContextMenu = (event: MouseEvent, id: string) => {
+  event.stopPropagation()
+  event.preventDefault()
+
+  if (!props.parent) return
+  if (!contextMenu.value) return
+  if (!apps.apps.find((app) => app.id === id)) return
+
+  const bounds = props.parent.getBoundingClientRect()
+
+  const newEventData = {
+    pageX: event.pageX - bounds.left,
+    pageY: event.pageY - bounds.top,
+    stopPropagation: () => {},
+    preventDefault: () => {}
+  }
+
+  selectedApp.value = id
+
+  contextMenu.value.show(newEventData)
+}
 
 const openApp = (app: AppType) => {
   apps.open(app.id)
@@ -94,6 +135,7 @@ const openSettings = (tab?: string) => {
             v-for="app in category.data"
             type="button"
             @click="openApp(app)"
+            @contextmenu="openContextMenu($event, app.id)"
             class="group relative flex items-center gap-2 rounded px-4 py-1 transition duration-150 hover:bg-white/50 focus:outline-none active:bg-white/75 dark:hover:bg-black/25 dark:active:bg-black/50"
           >
             <img v-if="app.icon" class="w-4" :src="iconUrl(app.icon)" :alt="app.name" />
@@ -102,6 +144,12 @@ const openSettings = (tab?: string) => {
           </button>
         </div>
       </div>
+      <ContextMenu
+        ref="contextMenu"
+        :model="contextMenuItems"
+        :append-to="parent"
+        @before-hide="selectedApp = undefined"
+      />
     </div>
   </div>
 </template>

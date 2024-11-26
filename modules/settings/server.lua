@@ -114,6 +114,31 @@ local function getInstalledApps(source)
     return installedApps
 end
 
+
+---@return boolean | table
+local function getDesktopApps(source)
+    local identifier = framework.getIdentifier(source)
+
+    if not identifier then
+        return false
+    end
+
+    local desktopApps = MySQL.scalar.await([[
+        SELECT
+            desktopApps
+        FROM
+            `fd_laptop`
+        WHERE
+            identifier = ?
+    ]], { identifier })
+
+    if not desktopApps then
+        return false
+    end
+
+    return desktopApps
+end
+
 ---@return boolean, string | nil
 local function saveAppearance(source, isDarkMode)
     local identifier = framework.getIdentifier(source)
@@ -136,6 +161,30 @@ local function saveAppearance(source, isDarkMode)
 
     return true, nil
 end
+
+---@return boolean, string | nil
+local function saveDesktopApps(source, payload)
+    local identifier = framework.getIdentifier(source)
+
+    if not identifier then
+        return false, locale('something_went_wrong')
+    end
+
+    MySQL.update([[
+        UPDATE
+            `fd_laptop`
+        SET
+            desktopApps = ?
+        WHERE
+            identifier = ?
+    ]], {
+        json.encode(payload),
+        identifier
+    }, function() end)
+
+    return true, nil
+end
+
 
 ---@return boolean, string | nil
 local function saveUserProfile(source, username, profilePicture)
@@ -225,9 +274,16 @@ RegisterNetEvent('fd_laptop:server:playerLoaded', function()
         TriggerClientEvent('fd_laptop:client:userInstalledApps', src, json.decode(installedApps))
     end
 
+    local desktopApps = getDesktopApps(src)
+    if desktopApps then
+        ---@diagnostic disable-next-line: param-type-mismatch
+        TriggerClientEvent('fd_laptop:client:userDesktopApps', src, json.decode(desktopApps))
+    end
+
     isProcessing = false
 end)
 
 lib.callback.register('fd_laptop:server:updateAppearance', saveAppearance)
 lib.callback.register('fd_laptop:server:updateBackground', saveBackground)
 lib.callback.register('fd_laptop:server:updateProfile', saveUserProfile)
+lib.callback.register('fd_laptop:server:saveDesktopApps', saveDesktopApps)

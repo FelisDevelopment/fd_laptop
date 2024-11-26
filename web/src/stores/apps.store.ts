@@ -13,6 +13,16 @@ import { appActions, windowDimensions } from '../utils/window.utils'
 import { groupApps } from '../utils/app.utils'
 import { useLaptop } from './laptop.store'
 import { useLocale } from './locale.store'
+import { watchDebounced } from '@vueuse/core'
+
+export interface DesktopApp {
+  appId: string
+  x: number
+  y: number
+  w: number
+  h: number
+  i: string
+}
 
 export const useApplications = defineStore('applications', () => {
   const development = useDevelopment()
@@ -21,6 +31,8 @@ export const useApplications = defineStore('applications', () => {
   const locale = useLocale()
   const apps = ref<AppType[]>([])
   const windows = ref<Record<string, Window>>({})
+  const desktopApps = ref<DesktopApp[]>([])
+  const desktopRows = ref<number>(9)
   const lastPosition = ref<[number, number]>([0, 0])
 
   const initApps = async (payload?: AppType[]) => {
@@ -65,6 +77,30 @@ export const useApplications = defineStore('applications', () => {
       })
   }
 
+  const addDesktopIcon = (id: string) => {
+    if (!apps.value.find((app) => app.id === id)) return
+    if (desktopApps.value.find((app) => app.appId === id)) return
+
+    const index = desktopApps.value.length
+
+    desktopApps.value.push({
+      appId: id,
+      x: Math.floor(index / desktopRows.value),
+      y: Math.floor(index % desktopRows.value),
+      w: 1,
+      h: 1,
+      i: index.toString()
+    })
+
+    saveDesktopApps()
+  }
+
+  const removeDesktopIcon = (id: string) => {
+    desktopApps.value = desktopApps.value.filter((app) => app.appId !== id)
+
+    saveDesktopApps()
+  }
+
   const addNewApp = (app: AppType) => {
     if (app.isInternal && !internalAppsComponents[app.id]) {
       throw new Error('Internal app component not found')
@@ -98,6 +134,18 @@ export const useApplications = defineStore('applications', () => {
       delete windows.value[id]
     }
   }
+
+  const filteredDesktopApps = computed(() => {
+    return desktopApps.value.filter((app) =>
+      apps.value.find(
+        (a) =>
+          a.id === app.appId &&
+          (a.isInstalled ||
+            a.isDefaultApp ||
+            (a.deviceId && laptop.installedDevices.find((d) => d.metadata.deviceId === a.deviceId)))
+      )
+    )
+  })
 
   const userApps = computed(() => {
     return groupApps(
@@ -239,18 +287,33 @@ export const useApplications = defineStore('applications', () => {
     return Object.values(windows.value).filter((window) => !window.isHidden)
   })
 
+  const saveDesktopApps = () => {
+    useApi('saveDesktopApps', {
+      method: 'POST',
+      body: JSON.stringify({
+        desktopApps: desktopApps.value
+      })
+    })
+  }
+
   return {
     open,
+    apps,
     close,
     windows,
     initApps,
     userApps,
     addNewApp,
     removeApp,
+    desktopApps,
+    desktopRows,
+    addDesktopIcon,
     shownWindows,
     markAsInstalled,
     markAsUninstalled,
     toggleActiveState,
+    removeDesktopIcon,
+    filteredDesktopApps,
     toggleMinimizeState,
     appStoreApplications
   }
@@ -290,4 +353,10 @@ useNuiEvent<string>('requestAppClosing', (payload: string) => {
   const apps = useApplications()
 
   apps.close(payload)
+})
+
+useNuiEvent<DesktopApp[]>('desktopApps', (payload: DesktopApp[]) => {
+  const apps = useApplications()
+
+  apps.desktopApps = payload
 })

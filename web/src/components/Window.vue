@@ -7,7 +7,6 @@ import ProgressSpinner from 'primevue/progressspinner'
 
 import InternalAppComponent from './windows/InternalAppComponent.vue'
 import IframeAppComponent from './windows/IframeAppComponent.vue'
-import { useLaptop } from '../stores/laptop.store'
 
 const props = defineProps<{
   appWindow: Window
@@ -15,7 +14,6 @@ const props = defineProps<{
 }>()
 
 const apps = useApplications()
-const laptop = useLaptop()
 
 const appWindow = useTemplateRef<HTMLDivElement>('window')
 const toolbar = useTemplateRef<HTMLDivElement>('toolbar')
@@ -63,7 +61,7 @@ const windowStyles = computed<CSSProperties>(() => {
     height: `${windowHeight.value}px`,
     minHeight: `${dimensions.minHeight}px`,
     maxHeight: `${dimensions.maxHeight}px`,
-    zIndex: 0
+    zIndex: 20
   }
 
   if (state.isMaximized) {
@@ -129,7 +127,7 @@ onMounted(async () => {
     @click.prevent="apps.toggleActiveState(app.id, true)"
     class="absolute flex flex-1 flex-col overflow-hidden rounded-t-lg bg-gray-100/70 shadow-md backdrop-blur-xl dark:bg-gray-800/70"
     :style="windowStyles"
-    :class="{ 'z-10': !state.isActive, 'z-40': state.isActive }"
+    :class="{ 'z-[100]': !state.isActive, 'z-[999]': state.isActive }"
   >
     <div
       class="toolbar flex h-8 select-none items-center justify-between bg-gray-100/50 dark:bg-gray-900/50"

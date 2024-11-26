@@ -4,9 +4,13 @@ import { defineAsyncComponent, ref } from 'vue'
 const StartmenuOverlay = defineAsyncComponent(() => import('../overlays/StartmenuOverlay.vue'))
 
 const isOpen = ref<boolean>(false)
+
+defineProps<{
+  parent: HTMLDivElement
+}>()
 </script>
 <template>
-  <StartmenuOverlay :isOpen="isOpen" @close="isOpen = false" />
+  <StartmenuOverlay :isOpen="isOpen" @close="isOpen = false" :parent="parent" />
   <button
     id="start-menu-button"
     @click.prevent="isOpen = !isOpen"

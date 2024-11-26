@@ -70,4 +70,8 @@ RegisterNetEvent('fd_laptop:server:playerUnloaded', function()
     TriggerClientEvent('fd_laptop:client:playerUnloaded', source)
 end)
 
+lib.callback.register('fd_laptop:laptopItem', function(source)
+    return config.item
+end)
+
 checkLaptopVersion(repository)

@@ -110,6 +110,14 @@ local function userInstalledApps(payload)
     end
 end
 
+---@param payload string[]
+local function userDesktopApps(payload)
+    SendNUIMessage({
+        action = 'desktopApps',
+        data = payload
+    })
+end
+
 ---@param id string
 local function appOpened(id)
     if not apps[id] then
@@ -121,7 +129,7 @@ local function appOpened(id)
     end
 
     if apps[id].onUse then
-        apps[id].onUse()
+        apps[payload].onUse()
     end
 
     TriggerServerEvent('fd_laptop:server:appOpened', id)
@@ -138,7 +146,7 @@ local function appClosed(id)
     end
 
     if apps[id].onClose then
-        apps[id].onClose()
+        apps[payload].onClose()
     end
 
     TriggerServerEvent('fd_laptop:server:appClosed', id)
@@ -166,10 +174,16 @@ local function requestAppClosing(id)
 end
 exports('closeApp', requestAppClosing)
 
+---@param payload table
+local function saveDesktopApps(payload)
+    lib.callback('fd_laptop:server:saveDesktopApps', false, function() end, payload)
+end
+
 RegisterNetEvent('fd_laptop:client:appsReady', initApps)
 RegisterNetEvent('fd_laptop:client:newApp', addNewApp)
 RegisterNetEvent('fd_laptop:client:removeApp', removeApp)
 RegisterNetEvent('fd_laptop:client:userInstalledApps', userInstalledApps)
+RegisterNetEvent('fd_laptop:client:userDesktopApps', userDesktopApps)
 
 RegisterNUICallback('installApp', function(data, cb)
     local success, error = installApp(data.id)
@@ -197,6 +211,12 @@ end)
 
 RegisterNUICallback('appClosed', function(data, cb)
     appClosed(data.id)
+
+    cb(1)
+end)
+
+RegisterNUICallback('saveDesktopApps', function(data, cb)
+    saveDesktopApps(data.desktopApps)
 
     cb(1)
 end)
