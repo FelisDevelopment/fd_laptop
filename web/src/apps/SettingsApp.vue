@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useLocale } from '../stores/locale.store'
 import type { InternalAppWindowBinds } from '../types/window.types'
 import { defineAsyncComponent, onMounted, ref, type Component } from 'vue'
 
@@ -18,12 +19,13 @@ type TabData = {
 }
 
 const props = defineProps<Omit<InternalAppWindowBinds, 'app'>>()
+const locale = useLocale()
 
 const currentTab = ref<AvailableTabs>('wifi')
 const tabs: Record<AvailableTabs, TabData> = {
   wifi: {
     icon: 'pi pi-wifi',
-    label: 'Wi-Fi',
+    label: locale.t('settings_wifi_tab_label'),
     component: defineAsyncComponent(
       () =>
         /* webpackChunkName: "SettingsAppWifiTab" */
@@ -32,7 +34,7 @@ const tabs: Record<AvailableTabs, TabData> = {
   },
   notifications: {
     icon: 'pi pi-bell',
-    label: 'Notifications',
+    label: locale.t('settings_notifications_tab_label'),
     component: defineAsyncComponent(
       () =>
         /* webpackChunkName: "SettingsAppNotificationsTab" */
@@ -41,7 +43,7 @@ const tabs: Record<AvailableTabs, TabData> = {
   },
   background: {
     icon: 'pi pi-image',
-    label: 'Background',
+    label: locale.t('settings_background_tab_label'),
     component: defineAsyncComponent(
       () =>
         /* webpackChunkName: "SettingsAppBackgroundTab" */
@@ -50,7 +52,7 @@ const tabs: Record<AvailableTabs, TabData> = {
   },
   appearance: {
     icon: 'pi pi-palette',
-    label: 'Appearance',
+    label: locale.t('settings_appearance_tab_label'),
     component: defineAsyncComponent(
       () =>
         /* webpackChunkName: "SettingsAppApperanceTab" */
@@ -59,7 +61,7 @@ const tabs: Record<AvailableTabs, TabData> = {
   },
   profile: {
     icon: 'pi pi-user',
-    label: 'Profile',
+    label: locale.t('settings_profile_tab_label'),
     component: defineAsyncComponent(
       () =>
         /* webpackChunkName: "SettingsAppProfileTab" */
@@ -68,7 +70,7 @@ const tabs: Record<AvailableTabs, TabData> = {
   },
   devices: {
     icon: 'pi pi-server',
-    label: 'Devices',
+    label: locale.t('settings_devices_tab_label'),
     component: defineAsyncComponent(
       () =>
         /* webpackChunkName: "SettingsAppDevicesTab" */
@@ -77,7 +79,7 @@ const tabs: Record<AvailableTabs, TabData> = {
   },
   information: {
     icon: 'pi pi-info-circle',
-    label: 'System Information',
+    label: locale.t('settings_system_information_tab_label'),
     component: defineAsyncComponent(
       () =>
         /* webpackChunkName: "SettingsAppInformationTab" */
@@ -101,7 +103,7 @@ onMounted(() => {
 </script>
 <template>
   <div class="flex flex-1 select-none overflow-hidden">
-    <div class="flex w-1/3 flex-col bg-white dark:bg-gray-800">
+    <div class="flex w-1/3 flex-col bg-white/50 dark:bg-gray-800/50">
       <div
         class="hover:text- flex cursor-pointer items-center gap-3 px-4 py-3 text-sm text-muted-color"
         :class="{
@@ -118,7 +120,7 @@ onMounted(() => {
     <component
       :is="tabs[currentTab].component"
       :changeWindowTitle="changeWindowTitle"
-      class="w-2/3 bg-gray-50 p-4 dark:bg-gray-700"
+      class="w-2/3 bg-gray-50/50 p-4 dark:bg-gray-700/50"
     ></component>
   </div>
 </template>

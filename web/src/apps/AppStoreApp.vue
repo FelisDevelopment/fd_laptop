@@ -18,7 +18,7 @@ const AppViewOverlayComponent = defineAsyncComponent(
 const locale = useLocale()
 const applications = useApplications()
 const notyf = useNotifications()
-const props = defineProps<InternalAppWindowBinds>()
+const props = defineProps<Omit<InternalAppWindowBinds, 'app'>>()
 
 const overlayShown = ref<boolean>(false)
 const overlayApp = ref<AppType>()
@@ -128,7 +128,7 @@ onMounted(() => {
 </script>
 <template>
   <div
-    class="relative flex flex-1 select-none flex-col gap-4 bg-gray-100 p-4 hover:bg-emphasis dark:bg-gray-800"
+    class="relative flex flex-1 select-none flex-col gap-4 bg-gray-100/50 p-4 dark:bg-gray-800/50"
   >
     <AppViewOverlayComponent
       v-if="overlayShown"
