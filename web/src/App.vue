@@ -2,6 +2,7 @@
 import { defineAsyncComponent, onMounted } from 'vue'
 import { useDevelopment } from './stores/development.store'
 import { useLaptop } from './stores/laptop.store'
+import { useNotifications } from './stores/notifications.store'
 
 const Laptop = defineAsyncComponent(() => import('./components/Laptop.vue'))
 const DevelopmentToolbar = defineAsyncComponent(
@@ -10,6 +11,7 @@ const DevelopmentToolbar = defineAsyncComponent(
 
 const dev = useDevelopment()
 const laptop = useLaptop()
+const notif = useNotifications()
 
 onMounted(() => {
   if (dev.isDevEnv) {
@@ -21,6 +23,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <Laptop v-show="laptop.isOpen" />
+  <Laptop v-show="laptop.isOpen || notif.shouldBeShown" />
   <DevelopmentToolbar v-if="dev.isDevEnv" />
 </template>

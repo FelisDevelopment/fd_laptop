@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useNotifications } from '../../stores/notifications.store'
 import { onClickOutside, useTimeAgo } from '@vueuse/core'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 //@ts-ignore
 import Toast from '../../services/toast/Toast.vue'
 import { useApplications } from '../../stores/apps.store'
@@ -30,10 +30,26 @@ const openSettings = () => {
   emit('close')
   apps.open('settings', { tab: 'notifications' })
 }
+
+const styles = computed(() => {
+  if (!notif.shouldBeShown) return {}
+
+  return {
+    root: {
+      style: 'width: 80%'
+    }
+  }
+})
 </script>
 <template>
   <Teleport to="#laptop" defer>
-    <Toast position="bottom-right" group="headless" to="#laptop" v-show="!isOpen">
+    <Toast
+      :position="notif.shouldBeShown ? 'top-center' : 'bottom-right'"
+      group="headless"
+      to="#laptop"
+      v-show="!isOpen"
+      :pt="styles"
+    >
       <template #container="{ message, closeCallback }">
         <div
           class="block space-y-1 rounded bg-white/50 p-3 text-sm backdrop-blur-xl hover:bg-white/25 active:bg-white/50 dark:bg-black/30 dark:hover:bg-black/50 dark:active:bg-black/30"

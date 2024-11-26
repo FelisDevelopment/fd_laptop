@@ -3,11 +3,23 @@ import { useToast } from '../services/usetoast'
 import { computed, ref } from 'vue'
 import type { Notification } from '../types/notification.types'
 import { useSettings } from './settings.store'
+import { useLaptop } from './laptop.store'
+import { useNuiEvent } from '../composables/useNuiEvent'
 
 export const useNotifications = defineStore('notifications', () => {
   const settings = useSettings()
   const toast = useToast()
+  const laptop = useLaptop()
+  const hasNewNotification = ref<number>()
   const notifications = ref<Notification[]>([])
+
+  const shouldBeShown = computed(() => {
+    if (laptop.isOpen) return false
+    if (settings.doNotDisturb) return false
+    if (!hasNewNotification.value) return false
+
+    return true
+  })
 
   const show = (data: Omit<Notification, 'time'>) => {
     notifications.value.push({
@@ -17,6 +29,11 @@ export const useNotifications = defineStore('notifications', () => {
     })
 
     if (settings.doNotDisturb) return
+
+    if (hasNewNotification.value) clearTimeout(hasNewNotification.value)
+    hasNewNotification.value = setTimeout(() => {
+      hasNewNotification.value = undefined
+    }, 4000)
 
     toast.add({
       //@ts-ignore
@@ -43,7 +60,14 @@ export const useNotifications = defineStore('notifications', () => {
     show,
     clear,
     close,
+    shouldBeShown,
     notifications,
     hasNotifications
   }
+})
+
+useNuiEvent<Notification>('newNotification', (data: Notification) => {
+  const notifications = useNotifications()
+
+  notifications.show(data)
 })

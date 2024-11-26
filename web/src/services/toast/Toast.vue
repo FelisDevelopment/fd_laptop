@@ -39,6 +39,8 @@ import { UniqueComponentId } from '@primevue/core/utils'
 import ToastEventBus from '../toasteventbus'
 import BaseToast from './BaseToast.vue'
 import ToastMessage from './ToastMessage.vue'
+import { mapStores } from 'pinia'
+import { useNotifications } from '../../stores/notifications.store'
 
 var messageIdx = 0
 
@@ -79,6 +81,11 @@ export default {
     add(message) {
       if (message.id == null) {
         message.id = messageIdx++
+      }
+
+      if (this.notificationsStore.shouldBeShown) {
+        this.messages = [message]
+        return
       }
 
       this.messages = [...this.messages, message]
@@ -162,6 +169,7 @@ export default {
     }
   },
   computed: {
+    ...mapStores(useNotifications),
     attributeSelector() {
       return UniqueComponentId()
     }

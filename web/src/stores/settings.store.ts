@@ -3,6 +3,8 @@ import { computed, ref, watch } from 'vue'
 import { useDevelopment } from './development.store'
 import { useNuiEvent } from '../composables/useNuiEvent'
 import type { UpdateProfileEvent, UserSettings, UserSettingsEvent } from '../types/settings.types'
+import { useApi } from '../composables/useApi'
+import { watchDebounced } from '@vueuse/core'
 
 export const useSettings = defineStore('settings', () => {
   const development = useDevelopment()
@@ -46,6 +48,22 @@ export const useSettings = defineStore('settings', () => {
   watch(isDarkMode, () => {
     handleDarkModeChange()
   })
+
+  watchDebounced(
+    doNotDisturb,
+    (newValue) => {
+      useApi(
+        'setDoNotDisturb',
+        {
+          method: 'POST',
+          body: JSON.stringify({ doNotDisturb: newValue })
+        },
+        undefined,
+        undefined
+      )
+    },
+    { debounce: 1000 }
+  )
 
   return {
     forApps,
