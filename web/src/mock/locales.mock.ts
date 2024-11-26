@@ -94,5 +94,14 @@ export const MockedLocales = {
   open_app_not_found_title: 'App not found',
   open_app_not_found_description: 'This app is not installed.',
   open_already_open_title: 'System',
-  open_already_open_description: 'This app is already open.'
+  open_already_open_description: 'This app is already open.',
+  settings_wifi_tab_label: 'Wi-Fi',
+  settings_notifications_tab_label: 'Notifications',
+  settings_background_tab_label: 'Background',
+  settings_appearance_tab_label: 'Appearance',
+  settings_profile_tab_label: 'Profile',
+  settings_devices_tab_label: 'Devices',
+  settings_system_information_tab_label: 'System Information',
+  create_shortcut_label: 'Add shortcut',
+  remove_shortcut_label: 'Remove shortcut'
 }
