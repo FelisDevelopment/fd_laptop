@@ -76,4 +76,4 @@
 
 ---@class Notification
 ---@field summary string
----@field detial string
+---@field detail string
