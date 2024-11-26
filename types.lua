@@ -73,3 +73,7 @@
 
 ---@class BackgroundSource
 ---@field src string
+
+---@class Notification
+---@field summary string
+---@field detial string
