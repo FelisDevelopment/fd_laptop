@@ -109,17 +109,17 @@ const openSettings = (tab?: string) => {
       <div class="flex flex-col gap-2 hover:cursor-pointer">
         <div
           @click.prevent="openSettings()"
-          class="group relative rounded transition duration-150 hover:bg-white/50 focus:outline-none active:bg-white/75 dark:hover:bg-black/25 dark:active:bg-black/50"
+          class="group relative rounded hover:bg-white/50 focus:outline-none active:bg-white/75 dark:hover:bg-black/25 dark:active:bg-black/50"
         >
-          <span class="block p-2 transition duration-75 active:scale-90">
+          <span class="block p-2 transition duration-75 ease-linear active:scale-90">
             <i class="pi pi-cog"></i>
           </span>
         </div>
         <div
           @click.prevent="signOut()"
-          class="group relative rounded transition duration-150 hover:bg-white/50 focus:outline-none active:bg-white/75 dark:hover:bg-black/25 dark:active:bg-black/50"
+          class="group relative rounded hover:bg-white/50 focus:outline-none active:bg-white/75 dark:hover:bg-black/25 dark:active:bg-black/50"
         >
-          <span class="block p-2 transition duration-75 active:scale-90">
+          <span class="block p-2 duration-75 active:scale-90">
             <i class="pi pi-sign-out"></i>
           </span>
         </div>
@@ -136,7 +136,7 @@ const openSettings = (tab?: string) => {
             type="button"
             @click="openApp(app)"
             @contextmenu="openContextMenu($event, app.id)"
-            class="group relative flex items-center gap-2 rounded px-4 py-1 transition duration-150 hover:bg-white/50 focus:outline-none active:bg-white/75 dark:hover:bg-black/25 dark:active:bg-black/50"
+            class="group relative flex items-center gap-2 rounded px-4 py-1 hover:bg-white/50 focus:outline-none active:bg-white/75 dark:hover:bg-black/25 dark:active:bg-black/50"
           >
             <img v-if="app.icon" class="w-4" :src="iconUrl(app.icon)" :alt="app.name" />
             <i v-else class="pi pi-question w-4 text-xs"></i>

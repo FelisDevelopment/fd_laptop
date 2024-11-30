@@ -16,7 +16,7 @@ const isOpen = ref<boolean>(false)
   <button
     @click.prevent="isOpen = !isOpen"
     type="button"
-    class="relative flex h-8 w-8 items-center justify-center rounded transition duration-150 hover:bg-white/50 focus:outline-none active:scale-90 active:bg-white dark:hover:bg-black/25 dark:active:bg-black/50"
+    class="relative flex h-8 w-8 items-center justify-center rounded hover:bg-white/50 focus:outline-none active:scale-90 active:bg-white dark:hover:bg-black/25 dark:active:bg-black/50"
   >
     <span
       v-if="notifications.hasNotifications"

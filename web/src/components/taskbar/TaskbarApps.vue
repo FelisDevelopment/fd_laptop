@@ -10,7 +10,7 @@ const connection = useConnection()
   <Button asChild>
     <div
       @click.prevent="apps.open('settings', { tab: 'wifi' })"
-      class="relative flex h-8 w-8 items-center justify-center rounded transition duration-150 hover:cursor-pointer hover:bg-white/50 focus:outline-none active:scale-90 active:bg-white dark:hover:bg-black/25 dark:active:bg-black/50"
+      class="relative flex h-8 w-8 items-center justify-center rounded hover:cursor-pointer hover:bg-white/50 focus:outline-none active:scale-90 active:bg-white dark:hover:bg-black/25 dark:active:bg-black/50"
     >
       <i
         v-if="!connection.isConnected"

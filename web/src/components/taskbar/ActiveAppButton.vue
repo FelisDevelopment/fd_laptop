@@ -14,7 +14,7 @@ const apps = useApplications()
 </script>
 <template>
   <button
-    class="hover-scale top-shadow pointer-events-auto relative flex h-12 w-14 items-center justify-center rounded px-2 transition duration-200 hover:bg-gray-100/50 dark:hover:bg-gray-800/50"
+    class="hover-scale top-shadow pointer-events-auto relative flex h-12 w-14 items-center justify-center rounded px-2 hover:bg-gray-100/50 dark:hover:bg-gray-800/50"
     :class="{ 'bg-gray-100/50 dark:bg-gray-800/50': isActive && !state.isMinimized }"
   >
     <img :src="iconUrl(icon)" class="h-8 w-8" />

@@ -137,7 +137,7 @@ onMounted(async () => {
       <div class="flex h-full items-center">
         <button
           v-if="windowActions.isMinimizable"
-          class="flex h-full w-12 items-center justify-center text-neutral-500 transition duration-200"
+          class="flex h-full w-12 items-center justify-center text-neutral-500"
           :class="['hover:bg-white hover:bg-opacity-5 hover:text-white']"
           type="button"
           @click.prevent="minimize()"
@@ -146,7 +146,7 @@ onMounted(async () => {
         </button>
         <button
           v-if="windowActions.isMaximizable"
-          class="flex h-full w-12 items-center justify-center text-neutral-500 transition duration-200"
+          class="flex h-full w-12 items-center justify-center text-neutral-500"
           :class="['hover:bg-white hover:bg-opacity-5 hover:text-white']"
           type="button"
           @click.prevent="maximize()"
@@ -159,7 +159,7 @@ onMounted(async () => {
         <button
           v-if="windowActions.isClosable"
           @click.prevent="close()"
-          class="flex h-full w-12 items-center justify-center text-neutral-500 transition duration-200 hover:bg-red-600 hover:text-white"
+          class="flex h-full w-12 items-center justify-center text-neutral-500 hover:bg-red-600 hover:text-white"
           type="button"
         >
           <i class="pi pi-times text-xs"></i>

@@ -16,9 +16,9 @@ defineProps<{
     @click.prevent="isOpen = !isOpen"
     ref="button"
     type="button"
-    class="group relative z-10 rounded transition duration-150 hover:bg-white/50 focus:outline-none active:bg-white/75 dark:hover:bg-black/25 dark:active:bg-black/50"
+    class="group relative z-10 rounded hover:bg-white/50 focus:outline-none active:bg-white/75 dark:hover:bg-black/25 dark:active:bg-black/50"
   >
-    <span class="block p-2 transition duration-75 active:scale-90">
+    <span class="block p-2 transition duration-75 ease-linear active:scale-90">
       <svg
         fill="currentColor"
         class="relative h-12 w-12 fill-current text-gray-800 dark:text-gray-300"
