@@ -6,6 +6,9 @@ Proper feedback is also really appreciated.
 
 ![](https://img.shields.io/github/v/release/FelisDevelopment/fd_laptop?logo=github)
 
+## Preview
+[![FD Laptop](http://img.youtube.com/vi/KwU3JwwlLWY/0.jpg)](http://www.youtube.com/watch?v=KwU3JwwlLWY "Felis Development - Laptop")
+
 ## Documentation
 
 [Read documentation here](https://docs.felis.gg/laptop/introduction)
@@ -26,6 +29,9 @@ Make sure that did download the release version, and not the source code since i
 ## Support
 
 Minimal support will be given in our discord server. [Felis Development](https://discord.gg/F8SUWwAsDN)
+
+## Recommended resources to use
+- [Nexure Racing](https://nexure.dev/product/6507811) - Elevate your FiveM racing experience with the Nexure Racing Script, a robust, feature-rich solution designed for competitive racing and community engagement.
 
 ## Credits
 
