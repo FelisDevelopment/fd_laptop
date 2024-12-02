@@ -129,7 +129,7 @@ local function appOpened(id)
     end
 
     if apps[id].onUse then
-        apps[payload].onUse()
+        apps[id].onUse()
     end
 
     TriggerServerEvent('fd_laptop:server:appOpened', id)
@@ -146,7 +146,7 @@ local function appClosed(id)
     end
 
     if apps[id].onClose then
-        apps[payload].onClose()
+        apps[id].onClose()
     end
 
     TriggerServerEvent('fd_laptop:server:appClosed', id)
