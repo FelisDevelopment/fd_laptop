@@ -9,11 +9,13 @@ local ox_inventory = exports.ox_inventory
 local registeredStashes = {}
 
 ox_inventory:registerHook('createItem', function(payload)
-    local id = utils.uuid()
+    local metadata = payload.metadata or {}
 
-    return {
-        id = id,
-    }
+    -- Set metadata to include the recipe name
+    if not metadata or not metadata.id then
+        metadata = { id = utils.uuid() }
+    end
+    return metadata
 end, {
     print = config.debug,
     itemFilter = {
