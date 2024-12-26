@@ -31,23 +31,23 @@ if (!globalThis.parentReady) {
         },
         '*'
       )
-  
+
       const rejection = setTimeout(() => {
         reject('Unable to fetch app data')
         globalThis.removeEventListener('message', handler)
       }, 5000)
-  
+
       const handler = (event) => {
         const { action, data } = event.data
-  
+
         if (action === `${globalThis.appId}:appData`) {
           clearTimeout(rejection)
           globalThis.removeEventListener('message', handler)
-  
+
           resolve(data)
         }
       }
-  
+
       globalThis.addEventListener('message', handler)
     })
   }
@@ -187,6 +187,10 @@ if (!globalThis.parentReady) {
     events[action](data)
   })
 
+  const GetParentResourceName = () => {
+    return globalThis.resourceName
+  }
+
   globalThis.appReady = appReady
   globalThis.changeWindowTitle = changeWindowTitle
   globalThis.getAppData = getAppData
@@ -196,6 +200,7 @@ if (!globalThis.parentReady) {
   globalThis.sendNotification = sendNotification
   globalThis.getNetworkSettings = getNetworkSettings
   globalThis.getDevices = getDevices
+  globalThis.GetParentResourceName = GetParentResourceName
 
   globalThis.postMessage('parentReady', '*')
 }
