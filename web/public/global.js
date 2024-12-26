@@ -187,8 +187,8 @@ if (!globalThis.parentReady) {
     events[action](data)
   })
 
-  const GetParentResourceName = () => {
-    return globalThis.resourceName
+  const getParentResourceName = () => {
+    return window.resourceName
   }
 
   globalThis.appReady = appReady
@@ -200,7 +200,7 @@ if (!globalThis.parentReady) {
   globalThis.sendNotification = sendNotification
   globalThis.getNetworkSettings = getNetworkSettings
   globalThis.getDevices = getDevices
-  globalThis.GetParentResourceName = GetParentResourceName
+  globalThis.GetParentResourceName = getParentResourceName
 
   globalThis.postMessage('parentReady', '*')
 }
