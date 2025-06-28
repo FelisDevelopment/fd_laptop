@@ -283,6 +283,18 @@ RegisterNetEvent('fd_laptop:server:playerLoaded', function()
     isProcessing = false
 end)
 
+local function loadJob()
+    local src = source
+    local job = framework.getJob(src)
+
+    if not job then return end
+
+    ---@diagnostic disable-next-line: param-type-mismatch
+    TriggerClientEvent('fd_laptop:client:loadJob', src, job)
+end
+RegisterNetEvent('fd_laptop:server:playerLoaded', loadJob)
+RegisterNetEvent('fd_laptop:server:jobUpdated', loadJob)
+
 lib.callback.register('fd_laptop:server:updateAppearance', saveAppearance)
 lib.callback.register('fd_laptop:server:updateBackground', saveBackground)
 lib.callback.register('fd_laptop:server:updateProfile', saveUserProfile)

@@ -14,6 +14,7 @@ export const useSettings = defineStore('settings', () => {
   const isDarkMode = ref<boolean>(true)
   const username = ref<string>('')
   const profilePicture = ref<string>()
+  const job = ref<string>()
 
   const getBackgroundImage = computed<string>(() => {
     const image = backgroundImage.value || '1.jpg'
@@ -66,6 +67,7 @@ export const useSettings = defineStore('settings', () => {
   )
 
   return {
+    job,
     forApps,
     username,
     isDarkMode,
@@ -95,4 +97,11 @@ useNuiEvent<UpdateProfileEvent>('updateProfile', (data: UpdateProfileEvent) => {
 
   settings.username = username
   settings.profilePicture = profilePicture
+})
+
+useNuiEvent<string>('loadJob', (data: string) => {
+  console.log('Loading job:', data)
+  const settings = useSettings()
+
+  settings.job = data
 })

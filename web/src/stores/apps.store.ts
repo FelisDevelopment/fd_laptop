@@ -14,6 +14,7 @@ import { groupApps } from '../utils/app.utils'
 import { useLaptop } from './laptop.store'
 import { useLocale } from './locale.store'
 import { watchDebounced } from '@vueuse/core'
+import { useSettings } from './settings.store'
 
 export interface DesktopApp {
   appId: string
@@ -29,6 +30,7 @@ export const useApplications = defineStore('applications', () => {
   const notyf = useNotifications()
   const laptop = useLaptop()
   const locale = useLocale()
+  const settings = useSettings()
   const apps = ref<AppType[]>([])
   const windows = ref<Record<string, Window>>({})
   const desktopApps = ref<DesktopApp[]>([])
@@ -137,25 +139,37 @@ export const useApplications = defineStore('applications', () => {
 
   const filteredDesktopApps = computed(() => {
     return desktopApps.value.filter((app) =>
-      apps.value.find(
-        (a) =>
-          a.id === app.appId &&
-          (a.isInstalled ||
-            a.isDefaultApp ||
-            (a.deviceId && laptop.installedDevices.find((d) => d.metadata.deviceId === a.deviceId)))
-      )
+      apps.value.find((a) => {
+        if (a.groups && !a.groups.includes(settings.job!)) {
+          return false
+        }
+
+        return (
+          (a.id === app.appId &&
+            (a.isInstalled ||
+              a.isDefaultApp ||
+              (a.deviceId &&
+                laptop.installedDevices.find((d) => d.metadata.deviceId === a.deviceId)))) ||
+          (settings.job && a.groups && a.groups.includes(settings.job))
+        )
+      })
     )
   })
 
   const userApps = computed(() => {
     return groupApps(
-      apps.value.filter(
-        (app: AppType) =>
+      apps.value.filter((app: AppType) => {
+        if (app.groups && !app.groups.includes(settings.job!)) {
+          return false
+        }
+
+        return (
           app.isInstalled ||
           app.isDefaultApp ||
           (app.deviceId &&
             laptop.installedDevices.find((d) => d.metadata.deviceId === app.deviceId))
-      )
+        )
+      })
     )
   })
 

@@ -76,6 +76,16 @@ local function saveAppearance(appearance)
     return success, error
 end
 
+local function loadJob(job)
+    if not job then return end
+
+    SendNUIMessage({
+        action = 'loadJob',
+        data = job
+    })
+end
+RegisterNetEvent('fd_laptop:client:loadJob', loadJob)
+
 ---@return UserSettings | nil
 exports('getUserSettings', function()
     return userSettings
