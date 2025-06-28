@@ -31,6 +31,15 @@ if (!globalThis.lunarContractsOverrides) {
       'p-8'
     )
     frame.classList.add('w-full', 'h-full', 'rounded-none', 'border-0')
+
+    // Removes the close button in tablet, but there's no back button either after it.
+    // const closeButton = body.querySelector(['text-xl', 'mr-4'].map((cls) => `.${cls}`).join(''))
+    // if (!closeButton) {
+    //   console.error('Close button not found')
+    //   return
+    // }
+
+    // closeButton.parentNode.removeChild(closeButton)
   }
 
   globalThis.addEventListener('message', (event) => {
