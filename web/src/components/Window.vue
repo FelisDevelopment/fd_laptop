@@ -114,10 +114,6 @@ onMounted(async () => {
     windowWidth.value = newWidth
     windowHeight.value = newHeight
   })
-
-  if (app.ignoreInternalLoading) {
-    isLoading.value = false
-  }
 })
 </script>
 <template>

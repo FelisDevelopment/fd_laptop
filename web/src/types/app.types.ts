@@ -17,6 +17,7 @@ export interface App {
   windowActions: AppWindowActions
   windowDimensions?: WindowDimensions
   windowDefaultStates?: WindowDefaultStates
+  overrides?: string[]
   onUse?: any
   onUseServer?: any
   onClose?: any

@@ -90,7 +90,7 @@ const iframeStyles = () => {
 }
 
 const markAsReady = () => {
-  if (!iframe.value) return
+  if (!iframe.value) return console.log('Iframe not found')
 
   props.appReady()
   iframeStyles()
@@ -100,7 +100,6 @@ const iframeEvents = () => {
   if (!iframe.value) return
 
   const childEvents: Record<string, (data?: any) => void> = {
-    parentReady: () => childComponentsLoaded(),
     appReady: () => markAsReady(),
     changeWindowTitle: (newTitle: string) => props.changeWindowTitle(newTitle),
     getAppData: () => getAppData(),
@@ -128,23 +127,80 @@ const iframeEvents = () => {
 const iframeBindings = () => {
   if (!iframe.value) return
 
-  const body = iframe.value.contentWindow?.document.body
+  const body = iframe.value.contentWindow?.document.head
   if (!body) return
 
-  const globalDefinition = body?.appendChild(document.createElement('script'))
+  if (props.app.overrides && Array.isArray(props.app.overrides)) {
+    props.app.overrides.forEach((override) => {
+      const script = document.createElement('script')
+      script.setAttribute('src', override)
+      body.prepend(script)
+    })
+  }
+
+  const globalScript = document.createElement('script')
+  globalScript?.setAttribute('src', `https://cfx-nui-${parentResourceName}/web/dist/global.js`)
+  body?.prepend(globalScript)
+
+  const globalDefinition = document.createElement('script')
   globalDefinition.appendChild(
     document.createTextNode(`
         globalThis.resourceName = '${props.app.resourceName}'
         globalThis.appId = '${props.app.id}'
     `)
   )
-
-  const globalScript = body?.appendChild(document.createElement('script'))
-  globalScript?.setAttribute('src', `https://cfx-nui-${parentResourceName}/web/dist/global.js`)
+  body?.prepend(globalDefinition)
 }
 
 const iframeLoaded = () => {
   if (!iframe.value) return
+
+  try {
+    const iframeDoc = iframe.value.contentDocument || iframe.value.contentWindow!.document
+
+    const observer = new MutationObserver(async (mutations) => {
+      let hasContent = false
+      mutations.forEach((mutation) => {
+        if (mutation.addedNodes.length > 0) {
+          hasContent = true
+        }
+      })
+
+      if (hasContent) {
+        if (props.app.ignoreInternalLoading) {
+          markAsReady()
+        }
+
+        if (props.app.onUse || props.app.onUseServer) {
+          await useApi<null>(
+            'appOpened',
+            {
+              method: 'POST',
+              body: JSON.stringify({ id: props.app.id })
+            },
+            undefined,
+            null
+          )
+        }
+
+        childComponentsLoaded()
+
+        postMessage({
+          action: 'onOpen',
+          data: {}
+        })
+
+        observer.disconnect()
+      }
+    })
+
+    observer.observe(iframeDoc.body, {
+      childList: true,
+      subtree: true
+    })
+  } catch (e) {
+    console.error('Error while loading external app:', e)
+  }
 
   iframeEvents()
   iframeBindings()
@@ -232,18 +288,6 @@ onMounted(async () => {
     )
   })
 
-  if (props.app.onUse || props.app.onUseServer) {
-    await useApi<null>(
-      'appOpened',
-      {
-        method: 'POST',
-        body: JSON.stringify({ id: props.app.id })
-      },
-      undefined,
-      null
-    )
-  }
-
   onKeyUp(
     'Escape',
     () => {
@@ -271,6 +315,10 @@ onBeforeUnmount(async () => {
   if (props.app.ui.includes('kub-')) {
     kubOverrides(false)
   }
+
+  postMessage({
+    action: 'closeApp'
+  })
 
   if (props.app.onClose || props.app.onCloseServer) {
     await useApi<null>(

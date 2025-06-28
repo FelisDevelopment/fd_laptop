@@ -33,6 +33,8 @@
 ---@field isInstalled? boolean
 ---@field isInternal? boolean
 ---@field ignoreInternalLoading? boolean
+---@field overrides? string[]
+---@field groups string
 ---@field deviceId? string
 ---@field needsUpdate? boolean
 ---@field resourceName? string
