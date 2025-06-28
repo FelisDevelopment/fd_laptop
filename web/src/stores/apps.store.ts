@@ -13,7 +13,6 @@ import { appActions, windowDimensions } from '../utils/window.utils'
 import { groupApps } from '../utils/app.utils'
 import { useLaptop } from './laptop.store'
 import { useLocale } from './locale.store'
-import { watchDebounced } from '@vueuse/core'
 import { useSettings } from './settings.store'
 
 export interface DesktopApp {
