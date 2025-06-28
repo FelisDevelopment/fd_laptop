@@ -11,7 +11,7 @@ export interface App {
   isDefaultApp?: boolean
   needsUpdate?: boolean
   ignoreInternalLoading?: boolean
-  groups: string[]
+  groups?: string[]
   keepAlive?: boolean
   deviceId?: string
   appstore?: AppStoreOptions
