@@ -22,7 +22,7 @@ importers:
         version: 4.3.5
       '@vee-validate/valibot':
         specifier: ^4.15.1
-        version: 4.15.1(valibot@1.0.0-beta.0(typescript@5.6.3))(vue@3.5.17(typescript@5.6.3))
+        version: 4.15.1(valibot@1.0.0-beta.7(typescript@5.6.3))(vue@3.5.17(typescript@5.6.3))
       '@vueuse/core':
         specifier: ^11.3.0
         version: 11.3.0(vue@3.5.17(typescript@5.6.3))
@@ -39,8 +39,8 @@ importers:
         specifier: ^0.3.4
         version: 0.3.4(tailwindcss@3.4.17)
       valibot:
-        specifier: 1.0.0-beta.0
-        version: 1.0.0-beta.0(typescript@5.6.3)
+        specifier: 1.0.0-beta.7
+        version: 1.0.0-beta.7(typescript@5.6.3)
       vee-validate:
         specifier: ^4.15.1
         version: 4.15.1(vue@3.5.17(typescript@5.6.3))
@@ -2137,8 +2137,8 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
-  valibot@1.0.0-beta.0:
-    resolution: {integrity: sha512-Q/oine+NPMXdIy3vwluw0vidHLk0mTPUQBRHc+EHZXnEWF3KzLx1YLsVHPVrgHaMGRfV58P9eGOgxJvi0a059w==}
+  valibot@1.0.0-beta.7:
+    resolution: {integrity: sha512-8CsDu3tqyg7quEHMzCOYdQ/d9NlmVQKtd4AlFje6oJpvqo70EIZjSakKIeWltJyNAiUtdtLe0LAk4625gavoeQ==}
     peerDependencies:
       typescript: '>=5'
     peerDependenciesMeta:
@@ -2951,10 +2951,10 @@ snapshots:
       '@typescript-eslint/types': 8.35.0
       eslint-visitor-keys: 4.2.1
 
-  '@vee-validate/valibot@4.15.1(valibot@1.0.0-beta.0(typescript@5.6.3))(vue@3.5.17(typescript@5.6.3))':
+  '@vee-validate/valibot@4.15.1(valibot@1.0.0-beta.7(typescript@5.6.3))(vue@3.5.17(typescript@5.6.3))':
     dependencies:
       type-fest: 4.41.0
-      valibot: 1.0.0-beta.0(typescript@5.6.3)
+      valibot: 1.0.0-beta.7(typescript@5.6.3)
       vee-validate: 4.15.1(vue@3.5.17(typescript@5.6.3))
     transitivePeerDependencies:
       - vue
@@ -4244,7 +4244,7 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
-  valibot@1.0.0-beta.0(typescript@5.6.3):
+  valibot@1.0.0-beta.7(typescript@5.6.3):
     optionalDependencies:
       typescript: 5.6.3
 
