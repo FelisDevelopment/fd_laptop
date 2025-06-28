@@ -89,8 +89,27 @@ const iframeStyles = () => {
   iframe.value.contentDocument?.body.setAttribute('style', concentrated)
 }
 
-const markAsReady = () => {
-  if (!iframe.value) return console.log('Iframe not found')
+const markAsReady = async () => {
+  if (!iframe.value) return
+
+  if (props.app.onUse || props.app.onUseServer) {
+    await useApi<null>(
+      'appOpened',
+      {
+        method: 'POST',
+        body: JSON.stringify({ id: props.app.id })
+      },
+      undefined,
+      null
+    )
+  }
+
+  childComponentsLoaded()
+
+  postMessage({
+    action: 'onOpen',
+    data: {}
+  })
 
   props.appReady()
   iframeStyles()
@@ -152,10 +171,17 @@ const iframeBindings = () => {
   body?.prepend(globalDefinition)
 }
 
-const iframeLoaded = () => {
+const awaitForContent = () => {
   if (!iframe.value) return
 
   try {
+    iframe.value!.contentWindow?.postMessage(
+      {
+        action: 'showMenu'
+      },
+      '*'
+    )
+
     const iframeDoc = iframe.value.contentDocument || iframe.value.contentWindow!.document
 
     const observer = new MutationObserver(async (mutations) => {
@@ -167,28 +193,7 @@ const iframeLoaded = () => {
       })
 
       if (hasContent) {
-        if (props.app.ignoreInternalLoading) {
-          markAsReady()
-        }
-
-        if (props.app.onUse || props.app.onUseServer) {
-          await useApi<null>(
-            'appOpened',
-            {
-              method: 'POST',
-              body: JSON.stringify({ id: props.app.id })
-            },
-            undefined,
-            null
-          )
-        }
-
-        childComponentsLoaded()
-
-        postMessage({
-          action: 'onOpen',
-          data: {}
-        })
+        markAsReady()
 
         observer.disconnect()
       }
@@ -200,6 +205,32 @@ const iframeLoaded = () => {
     })
   } catch (e) {
     console.error('Error while loading external app:', e)
+  }
+}
+
+const awaitForAlpineToLoad = () => {
+  if (!iframe.value) return
+
+  const checkAlpine = () => {
+    //@ts-ignore
+    if (iframe.value!.contentWindow?.Alpine) {
+      markAsReady()
+      return
+    }
+
+    setTimeout(checkAlpine, 100)
+  }
+
+  checkAlpine()
+}
+
+const iframeLoaded = () => {
+  if (!iframe.value) return
+
+  if (props.app.ui.includes('rahe-') || props.app.ui.includes('kub-')) {
+    awaitForAlpineToLoad()
+  } else {
+    awaitForContent()
   }
 
   iframeEvents()
