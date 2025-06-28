@@ -6,7 +6,7 @@ const apps = useApplications()
 const ActiveAppButton = defineAsyncComponent(() => import('./ActiveAppButton.vue'))
 
 const toggleStates = (id: string) => {
-  if (apps.windows[id].state.isActive) {
+  if (!apps.windows[id].state.isMinimized) {
     apps.toggleActiveState(id, false)
     apps.toggleMinimizeState(id, true)
 
