@@ -100,7 +100,6 @@ useNuiEvent<UpdateProfileEvent>('updateProfile', (data: UpdateProfileEvent) => {
 })
 
 useNuiEvent<string>('loadJob', (data: string) => {
-  console.log('Loading job:', data)
   const settings = useSettings()
 
   settings.job = data
