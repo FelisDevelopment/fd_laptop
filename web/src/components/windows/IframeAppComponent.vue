@@ -227,10 +227,12 @@ const awaitForAlpineToLoad = () => {
 const iframeLoaded = () => {
   if (!iframe.value) return
 
-  if (props.app.ui.includes('rahe-') || props.app.ui.includes('kub-')) {
+  if (props.app.ui.includes('rahe-') || props.app.ui.includes('kub-') || props.app.isAlpine) {
     awaitForAlpineToLoad()
-  } else {
+  } else if (props.app.isReactOrVue) {
     awaitForContent()
+  } else {
+    setTimeout(markAsReady, 1000)
   }
 
   iframeEvents()

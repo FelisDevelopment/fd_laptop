@@ -10,7 +10,8 @@ export interface App {
   isInstalling?: boolean
   isDefaultApp?: boolean
   needsUpdate?: boolean
-  ignoreInternalLoading?: boolean
+  isReactOrVue?: boolean
+  isAlpine?: boolean
   groups?: string[]
   keepAlive?: boolean
   deviceId?: string

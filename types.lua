@@ -32,7 +32,8 @@
 ---@field isDefaultApp boolean
 ---@field isInstalled? boolean
 ---@field isInternal? boolean
----@field ignoreInternalLoading? boolean
+---@field isReactOrVue? boolean
+---@field isAlpine? boolean
 ---@field overrides? string[]
 ---@field groups? string[]
 ---@field deviceId? string
