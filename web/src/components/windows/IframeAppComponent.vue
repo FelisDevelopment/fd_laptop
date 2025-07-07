@@ -260,9 +260,9 @@ const kubOverrides = (show: boolean = true) => {
   if (show) {
     const body = iframe.value!.contentWindow?.document.body!
 
-    body.firstElementChild?.setAttribute(
+    body.lastElementChild?.setAttribute(
       'style',
-      'position:relative; margin: 0; left: 0; top: 0; width: 100%; height: 100%; max-height: auto; max-width: auto; transform: none;'
+      'position:relative; margin: 0; left: 0; top: 0; width: 100vw; height: 100vh; max-height: auto; max-width: auto; transform: none;'
     )
 
     const head = iframe.value!.contentWindow?.document.head!
