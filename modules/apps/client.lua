@@ -124,12 +124,8 @@ local function appOpened(id)
         return
     end
 
-    if not apps[id].onUseServer and not apps[id].onUse then
+    if not apps[id].onUseServer then
         return
-    end
-
-    if apps[id].onUse then
-        apps[id].onUse()
     end
 
     TriggerServerEvent('fd_laptop:server:appOpened', id)
@@ -141,12 +137,8 @@ local function appClosed(id)
         return
     end
 
-    if not apps[id].onCloseServer and not apps[id].onClose then
+    if not apps[id].onCloseServer then
         return
-    end
-
-    if apps[id].onClose then
-        apps[id].onClose()
     end
 
     TriggerServerEvent('fd_laptop:server:appClosed', id)

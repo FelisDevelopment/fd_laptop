@@ -9,20 +9,21 @@ local fakeAvatars = require 'data.fakeAvatars'
 ---@type BackgroundSource[]
 local backgrounds = require 'config.backgrounds'
 
----@type boolean
-local isProcessing
+---@type table<string, boolean>
+local isProcessing = {}
 
 ---@return string
 local function generateUsername()
-    local username = ('%s%s'):format(fakeNames[math.random(1, #fakeNames)], math.random(1000, 9999))
+    for _ = 1, 50 do
+        local username = ('%s%s'):format(fakeNames[math.random(1, #fakeNames)], math.random(1000, 9999))
+        local result = MySQL.scalar.await('SELECT username FROM `fd_laptop` WHERE username = ?', { username })
 
-    local result = MySQL.scalar.await('SELECT username FROM `fd_laptop` WHERE username = ?', { username })
-
-    if result then
-        return generateUsername()
+        if not result then
+            return username
+        end
     end
 
-    return username
+    return 'User' .. math.random(100000, 999999)
 end
 
 --- @return string
@@ -49,7 +50,7 @@ local function loadUserSettings(identifier)
         local profile_picture = generateProfilePicture()
         local background = backgrounds[math.random(1, #backgrounds)].src
 
-        MySQL.insert([[
+        MySQL.insert.await([[
             INSERT INTO
                 `fd_laptop` (identifier, background, dark_mode, username, profile_picture)
             VALUES (
@@ -65,9 +66,7 @@ local function loadUserSettings(identifier)
             1,
             username,
             profile_picture
-        }, function() end)
-
-        isProcessing = false
+        })
 
         return {
             background = background,
@@ -77,8 +76,6 @@ local function loadUserSettings(identifier)
             installedApps = {}
         }
     end
-
-    isProcessing = false
 
     return {
         background = profile.background,
@@ -170,6 +167,15 @@ local function saveDesktopApps(source, payload)
         return false, locale('something_went_wrong')
     end
 
+    if type(payload) ~= 'table' then
+        return false, 'Invalid payload'
+    end
+
+    local encoded = json.encode(payload)
+    if #encoded > 10000 then
+        return false, 'Payload too large'
+    end
+
     MySQL.update([[
         UPDATE
             `fd_laptop`
@@ -192,6 +198,14 @@ local function saveUserProfile(source, username, profilePicture)
 
     if not identifier then
         return false, locale('something_went_wrong')
+    end
+
+    if type(username) ~= 'string' or #username > 50 or #username < 1 then
+        return false, 'Invalid username'
+    end
+
+    if type(profilePicture) ~= 'string' or #profilePicture > 500 then
+        return false, 'Invalid profile picture'
     end
 
     local currentProfile = MySQL.single.await([[
@@ -260,8 +274,8 @@ RegisterNetEvent('fd_laptop:server:playerLoaded', function()
         return
     end
 
-    if isProcessing then return end
-    isProcessing = true
+    if isProcessing[identifier] then return end
+    isProcessing[identifier] = true
 
     local settings = loadUserSettings(identifier)
 
@@ -278,9 +292,11 @@ RegisterNetEvent('fd_laptop:server:playerLoaded', function()
     if desktopApps then
         ---@diagnostic disable-next-line: param-type-mismatch
         TriggerClientEvent('fd_laptop:client:userDesktopApps', src, json.decode(desktopApps))
+    else
+        TriggerClientEvent('fd_laptop:client:userDesktopApps', src, {})
     end
 
-    isProcessing = false
+    isProcessing[identifier] = nil
 end)
 
 local function loadJob()

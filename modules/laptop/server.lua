@@ -1,4 +1,4 @@
-local config = require 'config.server.item'
+local config = require 'config.item'
 local repository = 'FelisDevelopment/fd_laptop'
 local needsUpdate = false
 
@@ -50,10 +50,25 @@ local function checkLaptopVersion(repository)
     end)
 end
 
-AddEventHandler('fd_laptop:server:useLaptop', function(source, laptopId, devices)
+AddEventHandler('fd_laptop:server:useLaptop', function(source, laptopId, devices, hasPassword)
     if not laptopId then return end
 
-    TriggerClientEvent('fd_laptop:client:useLaptop', source, config.item, laptopId, devices)
+    TriggerClientEvent('fd_laptop:client:useLaptop', source, config.item, laptopId, devices, hasPassword)
+    lib.print.debug('Player', source, 'is using laptop', laptopId)
+
+    local state = Player(source).state
+    lib.print.debug('Setting isUsingLaptop state for player', source)
+    state:set('isUsingLaptop', true, true)
+end)
+
+RegisterNetEvent("fd_laptop:server:laptopClosed", function()
+    local src = source
+    local state = Player(src).state
+
+    if not state.isUsingLaptop then return end
+
+    lib.print.debug('Clearing isUsingLaptop state for player', src)
+    state:set('isUsingLaptop', false, true)
 end)
 
 RegisterNetEvent('fd_laptop:server:clientReady', function()
@@ -65,13 +80,80 @@ RegisterNetEvent('fd_laptop:server:clientReady', function()
     TriggerClientEvent('fd_laptop:client:versionUpdate', src)
 end)
 
-RegisterNetEvent('fd_laptop:server:playerUnloaded', function()
+AddEventHandler('fd_laptop:server:playerUnloaded', function(src)
     ---@diagnostic disable-next-line: param-type-mismatch
-    TriggerClientEvent('fd_laptop:client:playerUnloaded', source)
+    TriggerClientEvent('fd_laptop:client:playerUnloaded', src)
 end)
 
 lib.callback.register('fd_laptop:laptopItem', function(source)
     return config.item
+end)
+
+local function findLaptopSlot(src)
+    if not config.item then return nil end
+
+    local ox_inventory = exports.ox_inventory
+    local items = ox_inventory:GetInventoryItems(src)
+    if not items then return nil end
+
+    for _, item in pairs(items) do
+        if item.name == config.item and item.metadata?.id then
+            return item.slot, item
+        end
+    end
+
+    return nil
+end
+
+lib.callback.register('fd_laptop:server:saveLaptopPassword', function(source, data)
+    local password = data and data.password
+    if password ~= nil and type(password) ~= 'string' then
+        return { success = false, error = 'Invalid password' }
+    end
+
+    local state = Player(source).state
+    if not state.isUsingLaptop then
+        return { success = false, error = 'Laptop not open' }
+    end
+
+    local slot, item = findLaptopSlot(source)
+    if not slot or not item then
+        return { success = false, error = 'Laptop not found' }
+    end
+
+    local trimmed = password and password:match('^%s*(.-)%s*$') or ''
+    local metadata = item.metadata or {}
+
+    if trimmed == '' then
+        metadata.password = nil
+    else
+        if #trimmed < 4 then
+            return { success = false, error = 'Password must be at least 4 characters' }
+        end
+        metadata.password = trimmed
+    end
+
+    exports.ox_inventory:SetMetadata(source, slot, metadata)
+    return { success = true }
+end)
+
+lib.callback.register('fd_laptop:server:validateLaptopPassword', function(source, data)
+    local password = data and data.password
+    if type(password) ~= 'string' then
+        return { success = false, error = 'Invalid password' }
+    end
+
+    local _, item = findLaptopSlot(source)
+    if not item or not item.metadata?.password then
+        return { success = true }
+    end
+
+    local trimmed = password:match('^%s*(.-)%s*$') or ''
+    if trimmed == item.metadata.password then
+        return { success = true }
+    end
+
+    return { success = false, error = 'Wrong password' }
 end)
 
 checkLaptopVersion(repository)

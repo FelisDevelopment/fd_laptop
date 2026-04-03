@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 200 200">
+  <!-- Generator: Adobe Illustrator 29.3.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 151)  -->
+  <defs>
+    <linearGradient id="linear-gradient" x1="3.89" y1="99.5" x2="177.17" y2="99.5" gradientTransform="translate(0 200) rotate(-90)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".2" stop-color="#fff" stop-opacity=".02"/>
+      <stop offset=".4" stop-color="#fff" stop-opacity=".06"/>
+      <stop offset=".59" stop-color="#fff" stop-opacity=".14"/>
+      <stop offset=".79" stop-color="#fff" stop-opacity=".25"/>
+      <stop offset=".98" stop-color="#fff" stop-opacity=".38"/>
+      <stop offset="1" stop-color="#fff" stop-opacity=".4"/>
+    </linearGradient>
+    <linearGradient id="Degradado_sin_nombre_42" data-name="Degradado sin nombre 42" x1="21.67" y1="99.5" x2="175.33" y2="99.5" gradientTransform="translate(0 200) rotate(-90)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".11" stop-color="#fff" stop-opacity=".03"/>
+      <stop offset=".28" stop-color="#fff" stop-opacity=".1"/>
+      <stop offset=".47" stop-color="#fff" stop-opacity=".23"/>
+      <stop offset=".69" stop-color="#fff" stop-opacity=".4"/>
+      <stop offset=".93" stop-color="#fff" stop-opacity=".63"/>
+      <stop offset="1" stop-color="#fff" stop-opacity=".7"/>
+    </linearGradient>
+    <linearGradient id="Degradado_sin_nombre_46" data-name="Degradado sin nombre 46" x1="108.89" y1="75.2" x2="150.21" y2="75.2" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fab917"/>
+      <stop offset="1" stop-color="#de1a86"/>
+    </linearGradient>
+    <linearGradient id="Degradado_sin_nombre_461" data-name="Degradado sin nombre 46" y1="120.28" y2="120.28" xlink:href="#Degradado_sin_nombre_46"/>
+    <linearGradient id="Degradado_sin_nombre_462" data-name="Degradado sin nombre 46" y1="142.82" y2="142.82" xlink:href="#Degradado_sin_nombre_46"/>
+    <linearGradient id="Degradado_sin_nombre_463" data-name="Degradado sin nombre 46" x1="48.79" y1="75.21" x2="90.11" y2="75.21" xlink:href="#Degradado_sin_nombre_46"/>
+    <linearGradient id="Degradado_sin_nombre_464" data-name="Degradado sin nombre 46" x1="52.54" y1="131.55" x2="86.35" y2="131.55" xlink:href="#Degradado_sin_nombre_46"/>
+  </defs>
+  <path d="M163.63,165.63c11-11,11-28.71,11-64.13s0-53.12-11-64.13c-11-11-28.71-11-64.13-11s-53.12,0-64.13,11c-11,11-11,28.71-11,64.13s0,53.12,11,64.13c11,11,28.71,11,64.13,11s53.12,0,64.13-11Z" fill="url(#linear-gradient)" stroke="url(#Degradado_sin_nombre_42)" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.4"/>
+  <g>
+    <path d="M144.58,69.57h-30.05c-3.11,0-5.63,2.52-5.63,5.63s2.52,5.63,5.63,5.63h30.05c3.11,0,5.63-2.52,5.63-5.63s-2.52-5.63-5.63-5.63Z" fill="url(#Degradado_sin_nombre_46)"/>
+    <g>
+      <path d="M114.53,125.92h30.05c3.11,0,5.63-2.52,5.63-5.63s-2.52-5.63-5.63-5.63h-30.05c-3.11,0-5.63,2.52-5.63,5.63s2.52,5.63,5.63,5.63Z" fill="url(#Degradado_sin_nombre_461)"/>
+      <path d="M144.58,137.19h-30.05c-3.11,0-5.63,2.52-5.63,5.63s2.52,5.63,5.63,5.63h30.05c3.11,0,5.63-2.52,5.63-5.63s-2.52-5.63-5.63-5.63Z" fill="url(#Degradado_sin_nombre_462)"/>
+    </g>
+    <path d="M84.47,69.57h-9.39v-9.39c0-3.11-2.52-5.63-5.63-5.63s-5.63,2.52-5.63,5.63v9.39h-9.39c-3.11,0-5.63,2.52-5.63,5.63s2.52,5.63,5.63,5.63h9.39v9.39c0,3.11,2.52,5.63,5.63,5.63s5.63-2.52,5.63-5.63v-9.39h9.39c3.11,0,5.63-2.52,5.63-5.63s-2.52-5.63-5.63-5.63Z" fill="url(#Degradado_sin_nombre_463)"/>
+    <path d="M77.42,131.55l7.28-7.28c2.2-2.2,2.2-5.77,0-7.97-2.2-2.2-5.77-2.2-7.97,0l-7.29,7.28-7.28-7.28c-2.2-2.2-5.77-2.2-7.97,0-2.2,2.2-2.2,5.77,0,7.97l7.29,7.29-7.29,7.28c-2.2,2.2-2.2,5.77,0,7.97,2.2,2.2,5.77,2.2,7.97,0l7.28-7.28,7.28,7.28c2.2,2.2,5.77,2.2,7.97,0,2.2-2.2,2.2-5.77,0-7.97l-7.28-7.29Z" fill="url(#Degradado_sin_nombre_464)"/>
+  </g>
+</svg>

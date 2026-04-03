@@ -1,4 +1,4 @@
-local itemConfig = require 'config.server.item'
+local itemConfig = require 'config.item'
 local config = require 'config.laptop'
 if not itemConfig.item then return end
 
@@ -15,6 +15,7 @@ ox_inventory:registerHook('createItem', function(payload)
     if not metadata or not metadata.id then
         metadata = { id = utils.uuid() }
     end
+
     return metadata
 end, {
     print = config.debug,
@@ -76,7 +77,11 @@ exports('useLaptop', function(event, _, inventory, slot, _)
         CreateThread(function()
             local item = ox_inventory:GetSlot(inventory.id, slot)
             if not item then return false end
-            if not item.metadata?.id then return false end
+            if not item.metadata?.id then
+                item.metadata = { id = utils.uuid() }
+                ox_inventory:SetMetadata(inventory.id, slot, item.metadata)
+                Wait(100)
+             end
 
             if not registeredStashes[item.metadata.id] then
                 registerStash(item.metadata.id)
@@ -95,7 +100,8 @@ exports('useLaptop', function(event, _, inventory, slot, _)
                 end
             end
 
-            TriggerEvent('fd_laptop:server:useLaptop', inventory.id, item.metadata?.id, devices)
+            local hasPassword = item.metadata?.password ~= nil and item.metadata.password ~= ''
+            TriggerEvent('fd_laptop:server:useLaptop', inventory.id, item.metadata?.id, devices, hasPassword)
         end)
 
         return false

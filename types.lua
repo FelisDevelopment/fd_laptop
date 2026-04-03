@@ -41,13 +41,12 @@
 ---@field resourceName? string
 ---@field ui? string
 ---@field appstore? AppStoreOptions
+---@field isOnDesktopByDefault? boolean
 ---@field keepAlive? boolean
 ---@field windowDimensions? WindowDimensions
 ---@field windowActions? WindowActions
 ---@field windowDefaultStates? WindowDefaultStates
----@field onUse? function
 ---@field onUseServer? function
----@field onClose? function
 ---@field onCloseServer? function
 
 ---@class WifiNetwork

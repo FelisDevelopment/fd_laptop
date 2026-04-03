@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_10" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 200 200">
+  <!-- Generator: Adobe Illustrator 29.3.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 151)  -->
+  <defs>
+    <linearGradient id="Degradado_sin_nombre_19" data-name="Degradado sin nombre 19" x1="111.46" y1="7.87" x2="112.67" y2="72.19" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".2" stop-color="#fff" stop-opacity=".02"/>
+      <stop offset=".4" stop-color="#fff" stop-opacity=".06"/>
+      <stop offset=".59" stop-color="#fff" stop-opacity=".14"/>
+      <stop offset=".79" stop-color="#fff" stop-opacity=".25"/>
+      <stop offset=".98" stop-color="#fff" stop-opacity=".38"/>
+      <stop offset="1" stop-color="#fff" stop-opacity=".4"/>
+    </linearGradient>
+    <linearGradient id="Degradado_sin_nombre_42" data-name="Degradado sin nombre 42" x1="81.96" y1="45.78" x2="142.96" y2="45.78" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".11" stop-color="#fff" stop-opacity=".03"/>
+      <stop offset=".28" stop-color="#fff" stop-opacity=".1"/>
+      <stop offset=".47" stop-color="#fff" stop-opacity=".23"/>
+      <stop offset=".69" stop-color="#fff" stop-opacity=".4"/>
+      <stop offset=".93" stop-color="#fff" stop-opacity=".63"/>
+      <stop offset="1" stop-color="#fff" stop-opacity=".7"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient" x1="70.75" y1="100.5" x2="154.16" y2="100.5" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8328f2"/>
+      <stop offset="1" stop-color="#de1a86"/>
+    </linearGradient>
+    <linearGradient id="Degradado_sin_nombre_191" data-name="Degradado sin nombre 19" x1="-20.39" y1="117.27" x2="127.91" y2="117.27" xlink:href="#Degradado_sin_nombre_19"/>
+    <linearGradient id="Degradado_sin_nombre_421" data-name="Degradado sin nombre 42" x1="24.15" y1="117.27" x2="175.85" y2="117.27" xlink:href="#Degradado_sin_nombre_42"/>
+    <linearGradient id="Degradado_sin_nombre_5" data-name="Degradado sin nombre 5" x1="95.36" y1="159.22" x2="95.36" y2="178.5" gradientTransform="translate(147.33 -17.97) rotate(45)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".9"/>
+      <stop offset="0" stop-color="#fff" stop-opacity=".84"/>
+      <stop offset=".03" stop-color="#fff" stop-opacity=".73"/>
+      <stop offset=".05" stop-color="#fff" stop-opacity=".65"/>
+      <stop offset=".08" stop-color="#fff" stop-opacity=".58"/>
+      <stop offset=".11" stop-color="#fff" stop-opacity=".53"/>
+      <stop offset=".16" stop-color="#fff" stop-opacity=".51"/>
+      <stop offset=".28" stop-color="#fff" stop-opacity=".5"/>
+      <stop offset=".46" stop-color="#fdfdfd" stop-opacity=".48"/>
+      <stop offset=".67" stop-color="#f9f9f9" stop-opacity=".43"/>
+      <stop offset=".89" stop-color="#f3f3f3" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#efefef" stop-opacity=".3"/>
+    </linearGradient>
+    <linearGradient id="Degradado_sin_nombre_51" data-name="Degradado sin nombre 5" x1="136.09" x2="136.09" gradientTransform="translate(269 -2.51) rotate(76.66)" xlink:href="#Degradado_sin_nombre_5"/>
+  </defs>
+  <path d="M142.45,51.5v18.57h-12.23v-18.57c0-9.8-7.98-17.76-17.76-17.76s-17.78,7.96-17.78,17.76v18.57h-12.23v-18.57c0-16.55,13.46-30,30-30s29.99,13.46,29.99,30Z" fill="url(#Degradado_sin_nombre_19)" stroke="url(#Degradado_sin_nombre_42)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.01"/>
+  <path d="M147.69,67.07h-70.47c-3.57,0-6.47,2.9-6.47,6.47v53.91c0,3.57,2.9,6.47,6.47,6.47h70.47c3.57,0,6.47-2.9,6.47-6.47v-53.91c0-3.57-2.9-6.47-6.47-6.47ZM100.15,117.54l8.08-14c-3.69-1.63-6.27-5.31-6.27-9.6,0-5.8,4.7-10.49,10.49-10.49s10.49,4.7,10.49,10.49c0,4.29-2.58,7.97-6.27,9.6l8.08,14h-24.62Z" fill="url(#linear-gradient)"/>
+  <path d="M49.41,70.02c-.44-1.48-1.81-2.5-3.35-2.5h-16.7c-1.93,0-3.5,1.57-3.5,3.5s1.57,3.5,3.5,3.5h14.09l26.9,90c.44,1.48,1.81,2.5,3.35,2.5h78.28c1.93,0,3.5-1.57,3.5-3.5s-1.57-3.5-3.5-3.5h-75.67l-2.95-9.87h77.55c3.54,0,6.66-2.33,7.67-5.72l15.24-51.29c1.52-5.13-2.32-10.28-7.67-10.28H53.24l-3.84-12.83Z" fill="url(#Degradado_sin_nombre_191)" stroke="url(#Degradado_sin_nombre_421)" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.4"/>
+  <circle cx="95.36" cy="168.86" r="9.64" transform="translate(-91.47 116.88) rotate(-45)" fill="url(#Degradado_sin_nombre_5)"/>
+  <circle cx="136.09" cy="168.86" r="9.64" transform="translate(-59.61 262.32) rotate(-76.66)" fill="url(#Degradado_sin_nombre_51)"/>
+</svg>

@@ -1,4 +1,5 @@
 local inventory = require 'bridge.inventory'
+local config = require 'config.laptop'
 
 ---@type boolean
 local doNotDisturb = false
@@ -25,7 +26,7 @@ local function sendNotification(data)
 
     if GetGameTimer() - lastNotificationSound >= 5000 then
         PlaySoundFrontend(-1, "Text_Arrive_Tone", "Phone_SoundSet_Default", true)
-        lastNotificationSound = GetGameTimer() + 5000
+        lastNotificationSound = GetGameTimer()
     end
 
     SendNUIMessage({
@@ -48,3 +49,14 @@ RegisterNetEvent('fd_laptop:server:playerUnloaded', function()
     doNotDisturb = false
     lastNotificationSound = 0
 end)
+
+if config.debug then
+    RegisterCommand('laptop_notify', function()
+        sendNotification({
+            summary = 'Test Notification',
+            detail = 'This is a test notification from fd_laptop.'
+        })
+
+        lib.print.debug('Sent test notification')
+    end, false)
+end

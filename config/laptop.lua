@@ -8,7 +8,7 @@ return {
     -- Default is 24h
     clock24h = true,
 
-    -- Date formating. Under the hood, uses `dayjs` (https://day.js.org/docs/en/display/format)
-    dateFormat = 'MMM DD, YYYY',
+    -- Date formating. Under the hood, uses `date-fns` (https://date-fns.org/docs/format)
+    dateFormat = 'MMM dd, yyyy',
     dateLocale = 'en-US',
 }

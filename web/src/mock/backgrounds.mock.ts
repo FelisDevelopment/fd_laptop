@@ -1,4 +1,4 @@
-import type { AvailableBackground } from '../types/background.types'
+import type { AvailableBackground } from '$lib/types/background.types'
 
 export const MockedBackgrounds: AvailableBackground[] = [
   {

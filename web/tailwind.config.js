@@ -2,8 +2,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: ['selector', '[class="dark-app"]'],
-  content: ['./index.html', './src/**/*.{html,vue,js,ts,jsx,tsx}'],
+  content: ['./index.html', './src/**/*.{html,svelte,js,ts,jsx,tsx}'],
   theme: {
     extend: {
       screens: {
@@ -16,7 +15,6 @@ export default {
   },
   variants: {},
   plugins: [
-    require('tailwindcss-primeui'),
     require('tailwind-scrollbar')({ nocompatible: true, preferredStrategy: 'pseudoelements' })
   ]
 }

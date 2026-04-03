@@ -1,4 +1,4 @@
-import type { AppType } from '../types/app.types'
+import type { AppType } from '$lib/types/app.types'
 
 export const MockedApps: AppType[] = [
   {
@@ -16,8 +16,96 @@ export const MockedApps: AppType[] = [
       maxHeight: 650
     },
     windowActions: {
+      isResizable: true,
+      isMaximizable: true,
+      isClosable: true,
+      isMinimizable: true,
+      isDraggable: true
+    }
+  },
+  {
+    id: 'spellme',
+    name: 'SpellMe',
+    icon: 'spellme.svg',
+    isDefaultApp: true,
+    isInternal: true,
+    windowDimensions: {
+      width: 500,
+      height: 800,
+      minWidth: 500,
+      minHeight: 800,
+      maxWidth: 500,
+      maxHeight: 800
+    },
+    windowActions: {
       isResizable: false,
       isMaximizable: false,
+      isClosable: true,
+      isMinimizable: true,
+      isDraggable: true
+    }
+  },
+  {
+    id: 'calendar',
+    name: 'Calendar',
+    icon: 'calendar.svg',
+    isDefaultApp: true,
+    isInternal: true,
+    windowDimensions: {
+      width: 500,
+      height: 700,
+      minWidth: 500,
+      minHeight: 700,
+      maxWidth: 500,
+      maxHeight: 700
+    },
+    windowActions: {
+      isResizable: false,
+      isMaximizable: false,
+      isClosable: true,
+      isMinimizable: true,
+      isDraggable: true
+    }
+  },
+  {
+    id: 'notes',
+    name: 'Notes',
+    icon: 'notes.svg',
+    isDefaultApp: true,
+    isInternal: true,
+    windowDimensions: {
+      width: 550,
+      height: 600,
+      minWidth: 400,
+      minHeight: 450,
+      maxWidth: 800,
+      maxHeight: 900
+    },
+    windowActions: {
+      isResizable: true,
+      isMaximizable: true,
+      isClosable: true,
+      isMinimizable: true,
+      isDraggable: true
+    }
+  },
+  {
+    id: 'email',
+    name: 'Email',
+    icon: 'email.svg',
+    isDefaultApp: true,
+    isInternal: true,
+    windowDimensions: {
+      width: 750,
+      height: 600,
+      minWidth: 600,
+      minHeight: 500,
+      maxWidth: 1000,
+      maxHeight: 800
+    },
+    windowActions: {
+      isResizable: true,
+      isMaximizable: true,
       isClosable: true,
       isMinimizable: true,
       isDraggable: true

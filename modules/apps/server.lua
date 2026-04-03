@@ -133,29 +133,22 @@ lib.callback.register("fd_laptop:server:markAsUninstalled", markAsUninstalled)
 local function appOpened(id)
     local src = source
 
-    if not laptopApps[id] then
-        return false, locale('app_does_not_exist')
-    end
-
-    if not laptopApps[id].onUseServer then
-        return
-    end
+    if type(id) ~= 'string' then return end
+    if not Player(src).state.isUsingLaptop then return end
+    if not laptopApps[id] then return end
+    if not laptopApps[id].onUseServer then return end
 
     laptopApps[id].onUseServer(src, id)
 end
 RegisterNetEvent('fd_laptop:server:appOpened', appOpened)
 
-
 local function appClosed(id)
     local src = source
 
-    if not laptopApps[id] then
-        return false, locale('app_does_not_exist')
-    end
-
-    if not laptopApps[id].onCloseServer then
-        return
-    end
+    if type(id) ~= 'string' then return end
+    if not Player(src).state.isUsingLaptop then return end
+    if not laptopApps[id] then return end
+    if not laptopApps[id].onCloseServer then return end
 
     laptopApps[id].onCloseServer(src, id)
 end

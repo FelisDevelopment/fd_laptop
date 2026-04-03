@@ -33,3 +33,6 @@ if not LoadResourceFile(GetCurrentResourceName(), 'web/dist/index.html') then
     return spamError(
         'Theres no built UI, download a release build or build it your self.\n	^3https://github.com/FelisDevelopment/fd_laptop^0')
 end
+
+local config = require 'config.laptop'
+SetConvarReplicated(("ox:printlevel:%s"):format(GetCurrentResourceName()), config.debug and "debug" or "info")

@@ -1,11 +1,29 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    },
-    {
-      "path": "./tsconfig.app.json"
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["svelte", "node"],
+    "baseUrl": ".",
+    "paths": {
+      "$lib/*": ["src/lib/*"]
     }
-  ]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.svelte.ts",
+    "src/**/*.svelte",
+    "vite.config.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
 }

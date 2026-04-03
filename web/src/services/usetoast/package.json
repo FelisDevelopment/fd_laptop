@@ -1,5 +1,0 @@
-{
-    "main": "./UseToast.js",
-    "module": "./UseToast.js",
-    "types": "./UseToast.d.ts"
-}
