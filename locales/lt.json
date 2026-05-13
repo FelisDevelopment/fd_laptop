@@ -266,5 +266,6 @@
     "app_ui_is_required": "Reikalingas programėlės UI",
     "app_does_not_exist": "Programėlė neegzistuoja",
     "something_went_wrong": "Kažkas negerai, bandykite dar kartą vėliau",
-    "in_a_hurry": "'Kažkur skubate?'"
+    "in_a_hurry": "'Kažkur skubate?'",
+    "laptop_stash_label": "Nešiojamojo kompiuterio saugykla"
 }
