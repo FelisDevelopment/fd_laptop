@@ -24,28 +24,63 @@ end, {
     }
 })
 
-ox_inventory:registerHook('swapItems', function(payload)
-    if not string.find(payload.toInventory, 'fd_laptop_') then return true end
-    if not payload.fromSlot then return false end
-    if not payload.fromSlot.metadata then return false end
-    if not payload.fromSlot.metadata?.deviceId then return false end
-    if not payload.fromSlot.metadata?.deviceLabel then return false end
+local swapHookId = ox_inventory:registerHook('swapItems', function(payload)
+    local toInventory = payload.toInventory
+    local fromInventory = payload.fromInventory
 
-    if payload.fromSlot.metadata.noDuplicate then
-        local count = ox_inventory:Search(payload.toInventory, 'count', payload.fromSlot.name, {
-            deviceId = payload.fromSlot.metadata?.deviceId
-        })
+    local isToLaptop = type(toInventory) == 'string' and string.find(toInventory, '^fd_laptop_')
 
-        if count > 0 then
-            return false
+    if isToLaptop then
+        local fromSlot = payload.fromSlot
+        if fromSlot then
+            local metadata = fromSlot.metadata
+            if metadata and metadata.deviceId and metadata.deviceLabel then
+                if metadata.noDuplicate then
+                    local count = ox_inventory:Search(toInventory, 'count', fromSlot.name, {
+                        deviceId = metadata.deviceId
+                    })
+
+                    if count > 0 then
+                        return false
+                    end
+                end
+            end
         end
     end
 end, {
-    print = config.debug,
-    inventoryFilter = {
-        '^fd_laptop_[%w+]'
-    }
+    print = config.debug
 })
+
+AddEventHandler(swapHookId, function(success, payload)
+    if not success then return end
+
+    local toInventory = payload.toInventory
+    local fromInventory = payload.fromInventory
+
+    local isToLaptop = type(toInventory) == 'string' and string.find(toInventory, '^fd_laptop_')
+    local isFromLaptop = type(fromInventory) == 'string' and string.find(fromInventory, '^fd_laptop_')
+
+    if isToLaptop or isFromLaptop then
+        local laptopId = isToLaptop and string.gsub(toInventory, 'fd_laptop_', '') or string.gsub(fromInventory, 'fd_laptop_', '')
+        
+        local items = ox_inventory:GetInventoryItems(('fd_laptop_%s'):format(laptopId)) or {}
+        local devices = {}
+        local devicesCount = 0
+
+        for _, item in pairs(items) do
+            local metadata = item.metadata
+            if metadata and metadata.deviceId then
+                devicesCount += 1
+                devices[devicesCount] = {
+                    slot = item.slot,
+                    metadata = metadata
+                }
+            end
+        end
+
+        TriggerClientEvent('fd_laptop:client:updateDevices', -1, laptopId, devices)
+    end
+end)
 
 local function registerStash(id)
     if not registeredStashes[id] then
