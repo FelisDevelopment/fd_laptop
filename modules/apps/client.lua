@@ -177,6 +177,21 @@ RegisterNetEvent('fd_laptop:client:removeApp', removeApp)
 RegisterNetEvent('fd_laptop:client:userInstalledApps', userInstalledApps)
 RegisterNetEvent('fd_laptop:client:userDesktopApps', userDesktopApps)
 
+RegisterNetEvent('fd_laptop:client:checkDevices', function(updatedDevices)
+    local deviceIds = {}
+    for _, dev in pairs(updatedDevices) do
+        if dev.metadata and dev.metadata.deviceId then
+            deviceIds[dev.metadata.deviceId] = true
+        end
+    end
+    
+    for id, app in pairs(apps) do
+        if app.deviceId and not deviceIds[app.deviceId] then
+            requestAppClosing(id)
+        end
+    end
+end)
+
 RegisterNUICallback('installApp', function(data, cb)
     local success, error = installApp(data.id)
 
