@@ -90,6 +90,8 @@ local function open(item, laptopId, installedDevices, hasPassword)
         }
     })
 
+    TriggerEvent('fd_laptop:client:checkDevices', devices)
+
     SetNuiFocus(true, true)
     SetCursorLocation(0.5, 0.5)
 end
@@ -182,6 +184,20 @@ RegisterNetEvent("fd_laptop:client:useLaptop", function(item, laptopId, installe
 
     open(item, laptopId, installedDevices, hasPassword)
     startItemCheck()
+end)
+
+RegisterNetEvent("fd_laptop:client:updateDevices", function(laptopId, updatedDevices)
+    if currentlyOpen == laptopId then
+        devices = updatedDevices
+        SendNUIMessage({
+            action = 'openLaptop',
+            data = {
+                laptopId = laptopId,
+                devices = devices
+            }
+        })
+        TriggerEvent('fd_laptop:client:checkDevices', updatedDevices)
+    end
 end)
 
 RegisterNetEvent("fd_laptop:client:playerUnloaded", function()
