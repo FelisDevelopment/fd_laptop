@@ -19,7 +19,10 @@ if (!globalThis.kubOverridesLoaded) {
       style.setAttribute('type', 'text/css')
       style.appendChild(
         document.createTextNode(
-          '.border-image { border-image: unset !important; } .ipad{border: unset !important;} .ipad::after{display:none !important;}'
+          '.border-image { border-image: unset !important; } .ipad{border: unset !important;} .ipad::after{display:none !important;} ' +
+          'div[x-data*="initTabletData"] { width: 100% !important; height: 100% !important; position: relative !important; transform: none !important; top: 0 !important; left: 0 !important; margin: 0 !important; } ' +
+          'div[x-show="isVisible"] { position: absolute !important; width: 100% !important; height: 100% !important; max-height: 100% !important; max-width: 100% !important; transform: none !important; top: 0 !important; left: 0 !important; margin: 0 !important; border-radius: 0 !important; box-shadow: none !important; } ' +
+          '.ipad-border { display: none !important; }'
         )
       )
     }
@@ -28,7 +31,7 @@ if (!globalThis.kubOverridesLoaded) {
   globalThis.addEventListener('message', (event) => {
     const { type, action } = event.data || {}
 
-    if (type === 'showUI' || action === 'onOpen') {
+    if (type === 'showUI' || type === 'setVisibility' || action === 'onOpen') {
       applyOverrides()
     }
   })
