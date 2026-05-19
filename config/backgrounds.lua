@@ -34,12 +34,6 @@ return {
         src = '11.jpg'
     },
     {
-        src = '12.jpg'
-    },
-    {
-        src = '13.jpg'
-    },
-    {
-        src = '13.webp'
+        src = '12.webp'
     },
 }
