@@ -115,7 +115,7 @@
       if (cell) {
         const { col, row } = cell
 
-        const occupant = appsStore.filteredDesktopApps.find(
+        const occupant = appsStore.desktopApps.find(
           (item) => item !== dragItem && item.x === col && item.y === row
         )
 
@@ -152,10 +152,23 @@
     cols = Math.floor(desktopRef.clientWidth / CELL_W) || 16
   }
 
+  function computeRows() {
+    if (!desktopRef || desktopRef.clientHeight === 0) return
+    const rows = Math.floor(desktopRef.clientHeight / (CELL_H + MARGIN))
+    if (rows > 0) {
+      appsStore.desktopRows = rows
+      appsStore.fixOutOfBoundsApps()
+    }
+  }
+
   onMount(() => {
     computeCols()
+    computeRows()
 
-    const observer = new ResizeObserver(() => computeCols())
+    const observer = new ResizeObserver(() => {
+      computeCols()
+      computeRows()
+    })
     if (desktopRef) observer.observe(desktopRef)
 
     return () => observer.disconnect()
