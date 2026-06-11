@@ -70,6 +70,32 @@ class AppsStore {
     return { x, y }
   }
 
+  fixOutOfBoundsApps() {
+    if (this.desktopRows <= 0 || this.desktopApps.length === 0) return
+
+    const occupied = new Set<string>(
+      this.desktopApps
+        .filter(a => a.y < this.desktopRows)
+        .map(a => `${a.x},${a.y}`)
+    )
+
+    let changed = false
+
+    for (const app of this.desktopApps) {
+      if (app.y >= this.desktopRows) {
+        const { x, y } = this.nextFreeCell(occupied)
+        occupied.add(`${x},${y}`)
+        app.x = x
+        app.y = y
+        changed = true
+      }
+    }
+
+    if (changed) {
+      this.saveDesktopApps()
+    }
+  }
+
   addDesktopIcon(id: string) {
     if (!this.apps.find((app) => app.id === id)) return
     if (this.desktopApps.find((app) => app.appId === id)) return
@@ -374,5 +400,7 @@ onNuiEvent<DesktopApp[]>('desktopApps', (payload) => {
 
   if (payload.length === 0) {
     appsStore.populateDefaultDesktopApps()
+  } else {
+    appsStore.fixOutOfBoundsApps()
   }
 })
