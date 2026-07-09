@@ -237,7 +237,7 @@ local function handleObject(entity, model, bone, position, rotation)
         true
     )
 
-    objects[ped] = object
+    objects[entity] = object
 
     SetModelAsNoLongerNeeded(model)
 end
@@ -279,9 +279,11 @@ local function handleRemotePlayerChanges(entity, state)
 end
 
 local function localCleanup()
-    if objects[cache.ped] and DoesEntityExist(objects[cache.ped]) then
-        DeleteObject(objects[cache.ped])
+    if objects[cache.playerId] and DoesEntityExist(objects[cache.playerId]) then
+        DeleteObject(objects[cache.playerId])
     end
+
+    objects[cache.playerId] = nil
 
     ClearPedTasks(cache.ped)
 end
