@@ -225,7 +225,14 @@
   }
 
   function copyPhone(phone: string) {
-    navigator.clipboard?.writeText(phone)
+    const ta = document.createElement('textarea')
+    ta.value = phone
+    ta.style.position = 'fixed'
+    ta.style.opacity = '0'
+    document.body.appendChild(ta)
+    ta.select()
+    try { document.execCommand('copy') } catch { void 0 }
+    document.body.removeChild(ta)
     phoneCopied = true
     setTimeout(() => { phoneCopied = false }, 1500)
   }
@@ -621,7 +628,7 @@
       </div>
       <div class="flex flex-col gap-1">
         <label class="text-[#8B8D9A] text-xs font-semibold" for="yp-phone">{localeStore.t('yellowpages_field_phone')}</label>
-        <input id="yp-phone" type="text" class="bg-[#252730] border border-[#2D2F3A] rounded-lg text-[#F0F0F5] text-[13px] py-2 px-[10px] outline-none font-inherit transition-colors duration-150 focus:border-[#E4A832]" bind:value={formPhone} maxlength="32" />
+        <input id="yp-phone" type="text" inputmode="tel" class="bg-[#252730] border border-[#2D2F3A] rounded-lg text-[#F0F0F5] text-[13px] py-2 px-[10px] outline-none font-inherit transition-colors duration-150 focus:border-[#E4A832]" value={formPhone} oninput={(e) => { formPhone = e.currentTarget.value.replace(/[^0-9+\-() ]/g, '') }} maxlength="32" />
       </div>
       <div class="flex flex-col gap-1">
         <label class="text-[#8B8D9A] text-xs font-semibold" for="yp-image">{localeStore.t('yellowpages_field_image')}</label>

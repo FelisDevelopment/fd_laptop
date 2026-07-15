@@ -67,7 +67,7 @@
     const to = toAddress.trim()
 
     if (!to) {
-      error = localeStore.t('email_to') + ' is required'
+      error = localeStore.t('email_recipient_required')
       return
     }
 
@@ -80,7 +80,7 @@
 
     const body = editor?.getHTML() || ''
 
-    const result = await fetchApi<{ success?: boolean; bounced?: boolean; error?: string }>(
+    const result = await fetchApi<{ success?: boolean; error?: string }>(
       'emailSend',
       { method: 'POST', body: JSON.stringify({ fromAddress, toAddress: to, subject, body }) },
       { success: true }
@@ -91,8 +91,10 @@
     if (!result || result.error) {
       if (result?.error === 'rate_limited') {
         error = localeStore.t('email_rate_limited')
+      } else if (result?.error === 'recipient_not_found') {
+        error = localeStore.t('email_recipient_not_found')
       } else {
-        error = result?.error || 'Failed to send'
+        error = localeStore.t('email_send_failed')
       }
       return
     }

@@ -135,11 +135,11 @@
         <div class="flex-1 min-w-0 flex flex-col gap-[2px]">
           <div class="flex items-center justify-between gap-2">
             <span class="text-[#F0F0F5] text-xs font-semibold truncate flex-1 min-w-0">
-              {folder === 'sent' ? email.to_address : email.from_address}
+              {email.folder === 'sent' ? email.to_address : email.from_address}
             </span>
             <span class="text-[#50525E] text-[10px] font-medium shrink-0">{formatDate(email.created_at)}</span>
           </div>
-          <span class="text-[#C8C9CF] text-xs font-medium truncate">{email.subject || '(no subject)'}</span>
+          <span class="text-[#C8C9CF] text-xs font-medium truncate">{email.subject || localeStore.t('email_no_subject')}</span>
           <span class="text-[#50525E] text-[11px] truncate">{getPreview(email.body)}</span>
         </div>
       </button>

@@ -88,6 +88,7 @@
   async function loadEmails(page: number = 1, append: boolean = false) {
     if (!activeAccount) return
     emailsLoading = true
+    if (!append) emails = []
 
     const search = searchQuery.trim()
     let mockFiltered = MOCK_EMAILS.filter(e => e.folder === folder)

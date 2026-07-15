@@ -281,22 +281,7 @@ lib.callback.register('fd_laptop:server:emailSend', function(source, data)
     ]], { toAddress })
 
     if (recipientExists or 0) == 0 then
-        MySQL.insert.await([[
-            INSERT INTO `fd_laptop_emails` (`owner_address`, `from_address`, `to_address`, `subject`, `body`, `folder`, `is_read`)
-            VALUES (?, ?, ?, ?, ?, 'sent', 1)
-        ]], { fromAddress, fromAddress, toAddress, subject, body })
-
-        local daemonAddress = 'mailer-daemon@' .. emailConfig.domains[1]
-        local bounceSubject = 'Delivery failed: ' .. subject
-        local safeAddress = toAddress:gsub('[<>&"\']', { ['<'] = '&lt;', ['>'] = '&gt;', ['&'] = '&amp;', ['"'] = '&quot;', ["'"] = '&#39;' })
-        local bounceBody = '<p>Your message to <strong>' .. safeAddress .. '</strong> could not be delivered. The email address does not exist.</p>'
-
-        MySQL.insert.await([[
-            INSERT INTO `fd_laptop_emails` (`owner_address`, `from_address`, `to_address`, `subject`, `body`, `folder`, `is_read`)
-            VALUES (?, ?, ?, ?, ?, 'inbox', 0)
-        ]], { fromAddress, daemonAddress, fromAddress, bounceSubject, bounceBody })
-
-        return { success = true, bounced = true }
+        return { error = 'recipient_not_found' }
     end
 
     MySQL.insert.await([[
