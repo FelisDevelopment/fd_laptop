@@ -31,8 +31,10 @@ export default defineConfig({
         cssMinify: true,
         rollupOptions: {
         output: {
-            manualChunks: {
-            'vendor': ['svelte'],
+            manualChunks(id) {
+            if (id.replace(/\\/g, '/').includes('/node_modules/svelte/')) {
+                return 'vendor'
+            }
             }
         }
         }
