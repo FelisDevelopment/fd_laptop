@@ -1,24 +1,26 @@
-name: Release
+name: Pre-release
 
 on:
     push:
         tags:
-            - "v*.*.*"
-            - "!v*-*"
+            - "v*.*.*-*"
+
+permissions:
+    contents: write
 
 jobs:
-    create-release:
-        name: Build and Create Tagged Release
+    create-prerelease:
+        name: Build and Create Pre-release
         runs-on: ubuntu-latest
         steps:
             - name: Install archive tools
               run: sudo apt install zip
 
-            - name: Checkout source code
+            - name: Checkout tagged commit
               uses: actions/checkout@v4
               with:
                   fetch-depth: 0
-                  ref: ${{ github.event.repository.default_branch }}
+                  ref: ${{ github.sha }}
 
             - name: Setup bun
               uses: oven-sh/setup-bun@v2
@@ -43,20 +45,6 @@ jobs:
               env:
                   TGT_RELEASE_VERSION: ${{ github.ref_name }}
 
-            - name: Push manifest change
-              uses: EndBug/add-and-commit@v8
-              with:
-                  add: fxmanifest.lua
-                  push: true
-                  author_name: Manifest Bumper
-                  author_email: 41898282+github-actions[bot]@users.noreply.github.com
-                  message: "chore: bump manifest version to ${{ github.ref_name }}"
-
-            - name: Update tag ref
-              uses: EndBug/latest-tag@latest
-              with:
-                  tag-name: ${{ github.ref_name }}
-
             - name: Bundle files
               run: |
                   mkdir -p ./temp/fd_laptop
@@ -66,15 +54,9 @@ jobs:
                   cp -r ./web/dist ./temp/fd_laptop/web/
                   cd ./temp && zip -r ../fd_laptop.zip ./fd_laptop
 
-            - name: Create Release
-              uses: "marvinpinto/action-automatic-releases@v1.2.1"
-              id: auto_release
+            - name: Create Pre-release
+              uses: softprops/action-gh-release@v2
               with:
-                  repo_token: "${{ secrets.GITHUB_TOKEN }}"
-                  title: ${{ env.RELEASE_VERSION }}
-                  prerelease: false
+                  name: ${{ env.RELEASE_VERSION }}
+                  prerelease: true
                   files: fd_laptop.zip
-
-              env:
-                  CI: false
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
