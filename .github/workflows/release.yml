@@ -14,37 +14,31 @@ jobs:
               run: sudo apt install zip
 
             - name: Checkout source code
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
               with:
                   fetch-depth: 0
                   ref: ${{ github.event.repository.default_branch }}
 
-            - uses: pnpm/action-setup@v2.0.1
+            - name: Setup bun
+              uses: oven-sh/setup-bun@v2
               with:
-                  version: 6.20.3
-
-            - name: Setup node
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 20
-                  cache: "npm"
-                  cache-dependency-path: "web/package.json"
+                  bun-version: 1.3.14
 
             - name: Set env
               run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
             - name: Install dependencies
-              run: npm install
+              run: bun install --frozen-lockfile
               working-directory: web
 
             - name: Run build
-              run: npm run build
+              run: bun run build
               working-directory: web
               env:
                   CI: false
 
             - name: Bump manifest version
-              run: node .github/actions/bump-manifest-version.js
+              run: bun .github/actions/bump-manifest-version.js
               env:
                   TGT_RELEASE_VERSION: ${{ github.ref_name }}
 
