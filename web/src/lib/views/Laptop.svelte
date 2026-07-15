@@ -26,7 +26,7 @@
     const classes: string[] = ['-translate-x-1/2']
 
     if (laptopStore.isOpen) {
-      classes.push('left-1/2', 'top-1/2', '-translate-y-1/2', 'opacity-50', 'hover:opacity-100')
+      classes.push('left-1/2', 'top-1/2', '-translate-y-1/2', 'opacity-50', 'hover:opacity-100', 'transition-opacity', 'duration-300', 'ease-out')
     }
 
     if (!laptopStore.isOpen && shouldBeShown) {
@@ -48,7 +48,7 @@
 <div
   id="laptop"
   bind:this={laptopRef}
-  class="fixed flex h-[85vh] min-h-[642px] w-[80vw] min-w-[1134px] flex-1 transform overflow-hidden rounded-xl border-8 border-gray-900 bg-[#16171C] bg-cover bg-center shadow-lg outline outline-1 -outline-offset-[1px] outline-gray-700/20 text-gray-100 hd:h-[80vh] {dynamicClasses}"
+  class="fixed flex h-[85vh] min-h-[642px] w-[80vw] min-w-[1134px] flex-1 transform overflow-hidden rounded-xl border-8 border-gray-900 bg-[#16171C] bg-cover bg-center shadow-lg outline outline-1 -outline-offset-[1px] outline-gray-700/20 text-gray-100 hd:h-[80vh] hd:max-w-[min(1800px,135vh)] {dynamicClasses}"
   style={styles}
 >
   {#if laptopStore.isOpen && laptopStore.isLocked}

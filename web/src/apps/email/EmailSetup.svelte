@@ -1,5 +1,7 @@
 <script lang="ts">
+  import { untrack } from 'svelte'
   import { localeStore } from '$lib/stores/localeStore.svelte'
+  import { clickOutside } from '$lib/utils/clickOutside'
   import { fetchApi } from '$lib/utils/api'
 
   let { config, oncreated, onback }: {
@@ -9,7 +11,7 @@
   } = $props()
 
   let username = $state('')
-  let selectedDomain = $state(config.domains[0])
+  let selectedDomain = $state(untrack(() => config.domains[0]))
   let error = $state('')
   let creating = $state(false)
   let domainOpen = $state(false)
@@ -17,13 +19,6 @@
   function selectDomain(domain: string) {
     selectedDomain = domain
     domainOpen = false
-  }
-
-  function handleClickOutside(e: MouseEvent) {
-    const target = e.target as HTMLElement
-    if (!target.closest('.email-setup-domain-dropdown')) {
-      domainOpen = false
-    }
   }
 
   async function handleCreate() {
@@ -67,8 +62,7 @@
   }
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
-<div class="flex-1 flex flex-col items-center justify-center gap-2 p-8 select-none relative" onclick={handleClickOutside}>
+<div class="flex-1 flex flex-col items-center justify-center gap-2 p-8 select-none relative">
   {#if onback}
     <!-- svelte-ignore a11y_consider_explicit_label -->
     <button type="button" class="absolute top-3 left-3 flex items-center gap-[6px] bg-none border-none text-[#8B8D9A] text-xs font-medium font-inherit cursor-pointer py-[6px] px-[10px] rounded-lg transition-colors duration-150 hover:text-[#F0F0F5] hover:bg-[#252730]" onclick={onback}>
@@ -84,7 +78,7 @@
   <p class="text-[#6B6D7A] text-[13px] m-0 mb-4 text-center max-w-[300px]">{localeStore.t('email_setup_description')}</p>
 
   <div class="flex flex-col items-center gap-[10px] w-full max-w-[360px]">
-    <div class="email-setup-domain-dropdown flex items-center w-full bg-[#252730] border border-[#2D2F3A] rounded-xl overflow-visible relative">
+    <div class="email-setup-domain-dropdown flex items-center w-full bg-[#252730] border border-[#2D2F3A] rounded-xl overflow-visible relative" use:clickOutside={{ callback: () => { domainOpen = false } }}>
       <input
         type="text"
         class="flex-1 min-w-0 bg-transparent border-none text-[#F0F0F5] text-[13px] py-[10px] px-3 outline-none font-inherit placeholder:text-[#50525E]"

@@ -3,7 +3,10 @@ local spellmeConfig = require 'config.server.spellme'
 
 --- Build a lookup set for valid words
 local validWords = {}
-for _, word in ipairs(spellmeConfig.words) do
+for _, word in ipairs(spellmeConfig.answers) do
+    validWords[word] = true
+end
+for _, word in ipairs(spellmeConfig.allowedGuesses) do
     validWords[word] = true
 end
 
@@ -43,10 +46,17 @@ local function getDailyWord()
         return { word = row.word, wordNumber = row.id }
     end
 
-    local index = math.random(1, #spellmeConfig.words)
-    local word = spellmeConfig.words[index]
+    local index = math.random(1, #spellmeConfig.answers)
+    local word = spellmeConfig.answers[index]
 
     local id = MySQL.insert.await('INSERT INTO `fd_laptop_spellme_words` (word, date) VALUES (?, ?)', { word, today })
+
+    if not id then
+        row = MySQL.single.await('SELECT id, word FROM `fd_laptop_spellme_words` WHERE date = ?', { today })
+        if row then
+            return { word = row.word, wordNumber = row.id }
+        end
+    end
 
     return { word = word, wordNumber = id }
 end

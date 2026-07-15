@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
+  import { format } from 'date-fns'
   import { localeStore } from '$lib/stores/localeStore.svelte'
   import { fetchApi } from '$lib/utils/api'
 
@@ -36,6 +37,7 @@
   let formDescription = $state('')
   let formImageUrl = $state('')
   let formSubmitting = $state(false)
+  let formError = $state('')
 
   let MONTH_NAMES = $derived(localeStore.t('date_months_wide').split(','))
   let DAY_LABELS = $derived.by(() => {
@@ -63,6 +65,12 @@
 
   function formatDateKey(year: number, month: number, day: number): string {
     return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+  }
+
+  function formatDayLabel(dateKey: string): string {
+    const [y, m, d] = dateKey.substring(0, 10).split('-').map(Number)
+    if (!y || !m || !d) return dateKey
+    return format(new Date(y, m - 1, d), 'MMMM d, yyyy', { locale: localeStore.dateFnsLocale })
   }
 
   function isToday(year: number, month: number, day: number): boolean {
@@ -178,6 +186,7 @@
     formTime = ''
     formDescription = ''
     formImageUrl = ''
+    formError = ''
     showCreateModal = true
   }
 
@@ -209,7 +218,9 @@
       mockResult
     )
 
-    if (result && !('error' in result)) {
+    if (!result || 'error' in result) {
+      formError = localeStore.t('calendar_event_save_failed')
+    } else {
       events = [...events, result]
       showCreateModal = false
     }
@@ -316,7 +327,7 @@
     {#if selectedDate}
       <div class="flex-1 mt-2 overflow-y-auto flex flex-col gap-1 min-h-0 lscrollbar">
         <div class="flex items-center justify-between pt-2 pb-1 shrink-0">
-          <span class="text-[#8B8D9A] text-[13px] font-semibold">{selectedDate}</span>
+          <span class="text-[#8B8D9A] text-[13px] font-semibold">{formatDayLabel(selectedDate)}</span>
           <!-- svelte-ignore a11y_consider_explicit_label -->
           <button type="button" class="flex items-center gap-1 py-[5px] px-3 text-xs font-semibold text-[#16171C] bg-[#5BBD6B] border-none rounded-md cursor-pointer transition-colors duration-150 hover:bg-[#4DAD5D]" onclick={openCreateModal}>
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
@@ -378,7 +389,7 @@
           <div class="flex gap-4 flex-wrap">
             <div class="flex items-center gap-[6px] text-[#8B8D9A] text-[13px] font-medium">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-              <span>{String(viewingEvent.date).substring(0, 10)}</span>
+              <span>{formatDayLabel(String(viewingEvent.date))}</span>
             </div>
             {#if viewingEvent.time}
               <div class="flex items-center gap-[6px] text-[#8B8D9A] text-[13px] font-medium">
@@ -459,6 +470,9 @@
             <label class="text-[#8B8D9A] text-xs font-semibold" for="cal-image">{localeStore.t('calendar_event_image')}</label>
             <input id="cal-image" type="text" class="bg-[#252730] border border-[#2D2F3A] rounded-lg text-[#F0F0F5] text-[13px] py-2 px-[10px] outline-none font-inherit transition-colors duration-150 focus:border-[#5BBD6B]" bind:value={formImageUrl} placeholder="https://..." />
           </div>
+          {#if formError}
+            <span class="text-[#E55B5B] text-xs font-medium">{formError}</span>
+          {/if}
           <button
             type="button"
             class="py-[10px] text-[13px] font-bold text-[#16171C] bg-[#5BBD6B] border-none rounded-lg cursor-pointer transition-colors duration-150 mt-1 enabled:hover:bg-[#4DAD5D] disabled:opacity-50 disabled:cursor-default"

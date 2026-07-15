@@ -110,5 +110,27 @@ export const MockedApps: AppType[] = [
       isMinimizable: true,
       isDraggable: true
     }
+  },
+  {
+    id: 'yellowpages',
+    name: 'Yellow Pages',
+    icon: 'yellowpages.svg',
+    isDefaultApp: true,
+    isInternal: true,
+    windowDimensions: {
+      width: 900,
+      height: 700,
+      minWidth: 700,
+      minHeight: 560,
+      maxWidth: 1400,
+      maxHeight: 1000
+    },
+    windowActions: {
+      isResizable: true,
+      isMaximizable: true,
+      isClosable: true,
+      isMinimizable: true,
+      isDraggable: true
+    }
   }
 ]

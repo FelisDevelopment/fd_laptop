@@ -44,14 +44,14 @@ lib.callback.register('fd_laptop:server:calendarGetEvents', function(source, dat
     end
 
     local startDate = string.format('%04d-%02d-01', year, month)
-    local endDate = string.format('%04d-%02d-31', year, month)
+    local endDate = os.date('%Y-%m-%d', os.time({ year = year, month = month + 1, day = 1 }))
 
     local rows = MySQL.query.await([[
-        SELECT e.`id`, e.`title`, e.`description`, e.`date`, e.`time`, e.`image_url`, e.`is_shared`, e.`identifier`,
+        SELECT e.`id`, e.`title`, e.`description`, DATE_FORMAT(e.`date`, '%Y-%m-%d') AS `date`, e.`time`, e.`image_url`, e.`is_shared`, e.`identifier`,
                CASE WHEN r.`id` IS NOT NULL THEN 1 ELSE 0 END AS `has_reminder`
         FROM `fd_laptop_calendar_events` e
         LEFT JOIN `fd_laptop_calendar_reminders` r ON r.`event_id` = e.`id` AND r.`identifier` = ?
-        WHERE e.`date` >= ? AND e.`date` <= ?
+        WHERE e.`date` >= ? AND e.`date` < ?
           AND (e.`is_shared` = 1 OR e.`identifier` = ?)
         ORDER BY e.`date` ASC, e.`time` ASC
     ]], { identifier, startDate, endDate, identifier })

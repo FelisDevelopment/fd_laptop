@@ -1,5 +1,6 @@
 <script lang="ts">
   import { localeStore } from '$lib/stores/localeStore.svelte'
+  import { clickOutside } from '$lib/utils/clickOutside'
 
   interface Account {
     id: number
@@ -34,20 +35,12 @@
       onaccountchange(acc)
     }
   }
-
-  function handleClickOutside(e: MouseEvent) {
-    const target = e.target as HTMLElement
-    if (!target.closest('.email-sb-dropdown')) {
-      accountDropdownOpen = false
-    }
-  }
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
-<div class="w-[200px] min-w-[200px] flex flex-col bg-[#1A1B21] border-r border-[#2D2F3A] py-3 px-2 gap-1 select-none" onclick={handleClickOutside}>
+<div class="w-[200px] min-w-[200px] flex flex-col bg-[#1A1B21] border-r border-[#2D2F3A] py-3 px-2 gap-1 select-none">
   <div class="pt-1 px-1 pb-2">
     {#if accounts.length > 1}
-      <div class="email-sb-dropdown relative">
+      <div class="email-sb-dropdown relative" use:clickOutside={{ callback: () => { accountDropdownOpen = false } }}>
         <!-- svelte-ignore a11y_consider_explicit_label -->
         <button type="button" class="flex items-center gap-1 w-full py-[7px] px-[10px] bg-[#252730] border border-[#2D2F3A] rounded-lg text-[#C8C9CF] text-[11px] font-inherit cursor-pointer transition-colors duration-150 text-left hover:border-[#3A3D4A] hover:text-[#F0F0F5]" onclick={() => { accountDropdownOpen = !accountDropdownOpen }}>
           <span class="flex-1 min-w-0 truncate">{activeAccount?.address || ''}</span>

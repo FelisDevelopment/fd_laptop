@@ -1,6 +1,12 @@
+<script module lang="ts">
+  import type { AvailableBackground } from '$lib/types/background.types'
+
+  let cachedBackgrounds: AvailableBackground[] | null = null
+  let backgroundsRequest: Promise<AvailableBackground[] | null> | null = null
+</script>
+
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte'
-  import type { AvailableBackground } from '$lib/types/background.types'
   import { fetchApi } from '$lib/utils/api'
   import { MockedBackgrounds } from '../../mock/backgrounds.mock'
   import { settingsStore } from '$lib/stores/settingsStore.svelte'
@@ -19,22 +25,32 @@
     changeWindowTitle: (newTitle: string) => void
   } = $props()
 
-  let isLoading = $state(true)
+  let isLoading = $state(cachedBackgrounds === null)
   let isChanging = $state(false)
-  let backgrounds = $state<AvailableBackground[]>([])
+  let backgrounds = $state<AvailableBackground[]>(cachedBackgrounds ?? [])
   let originalBackground = $state<string | undefined>()
 
   onMount(async () => {
     changeWindowTitle(localeStore.t('settings_background_title'))
 
-    const data = await fetchApi<AvailableBackground[]>(
-      'availableBackgrounds',
-      {},
-      MockedBackgrounds
-    )
+    if (cachedBackgrounds) return
 
-    if (!data) return
+    if (!backgroundsRequest) {
+      backgroundsRequest = fetchApi<AvailableBackground[]>(
+        'availableBackgrounds',
+        {},
+        MockedBackgrounds
+      )
+    }
 
+    const data = await backgroundsRequest
+
+    if (!data) {
+      backgroundsRequest = null
+      return
+    }
+
+    cachedBackgrounds = data
     backgrounds = data
     isLoading = false
   })

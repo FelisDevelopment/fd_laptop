@@ -137,29 +137,6 @@ local function getDesktopApps(source)
 end
 
 ---@return boolean, string | nil
-local function saveAppearance(source, isDarkMode)
-    local identifier = framework.getIdentifier(source)
-
-    if not identifier then
-        return false, locale('something_went_wrong')
-    end
-
-    MySQL.update([[
-        UPDATE
-            `fd_laptop`
-        SET
-            dark_mode = ?
-        WHERE
-            identifier = ?
-    ]], {
-        isDarkMode,
-        identifier
-    }, function() end)
-
-    return true, nil
-end
-
----@return boolean, string | nil
 local function saveDesktopApps(source, payload)
     local identifier = framework.getIdentifier(source)
 
@@ -311,7 +288,6 @@ end
 RegisterNetEvent('fd_laptop:server:playerLoaded', loadJob)
 RegisterNetEvent('fd_laptop:server:jobUpdated', loadJob)
 
-lib.callback.register('fd_laptop:server:updateAppearance', saveAppearance)
 lib.callback.register('fd_laptop:server:updateBackground', saveBackground)
 lib.callback.register('fd_laptop:server:updateProfile', saveUserProfile)
 lib.callback.register('fd_laptop:server:saveDesktopApps', saveDesktopApps)

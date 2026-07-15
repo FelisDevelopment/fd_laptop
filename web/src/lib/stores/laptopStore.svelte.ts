@@ -1,5 +1,6 @@
 import { developmentStore } from '$lib/stores/developmentStore.svelte'
 import { localeStore } from '$lib/stores/localeStore.svelte'
+import { appsStore } from '$lib/stores/appsStore.svelte'
 import { fetchApi } from '$lib/utils/api'
 import { onNuiEvent } from '$lib/utils/nuiEvent'
 import type {
@@ -39,7 +40,6 @@ class LaptopStore {
 
   async init() {
     if (developmentStore.isDevEnv) {
-      const { appsStore } = await import('$lib/stores/appsStore.svelte')
       await appsStore.initApps()
       await localeStore.fetchLocales()
       return

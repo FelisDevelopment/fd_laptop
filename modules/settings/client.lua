@@ -60,22 +60,6 @@ local function saveBackground(background)
     return success, error
 end
 
----@param appearance boolean
----@return boolean, string | nil
-local function saveAppearance(appearance)
-    if isProcessing then return false, locale('in_a_hurry') end
-    isProcessing = true
-
-    local success, error = lib.callback.await('fd_laptop:server:updateAppearance', false, appearance)
-
-    if success then
-        userSettings.dark_mode = appearance
-    end
-
-    isProcessing = false
-    return success, error
-end
-
 local function loadJob(job)
     if not job then return end
 
@@ -112,19 +96,6 @@ end)
 
 RegisterNUICallback('saveBackground', function(data, cb)
     local success, error = saveBackground(data.background)
-
-    cb({
-        success = success,
-        error = error
-    })
-
-    if not userSettings then return end
-
-    sendSettings(userSettings)
-end)
-
-RegisterNUICallback('saveAppearance', function(data, cb)
-    local success, error = saveAppearance(data.isDarkMode)
 
     cb({
         success = success,

@@ -318,6 +318,10 @@ class AppsStore {
     app.isInstalled = false
     app.isInstalling = false
 
+    if (this.desktopApps.some((a) => a.appId === id)) {
+      this.removeDesktopIcon(id)
+    }
+
     if (this.windows[id]) {
       this.close(id)
     }
@@ -383,8 +387,15 @@ onNuiEvent<string>('requestAppClosing', (payload) => {
 })
 
 onNuiEvent<DesktopApp[]>('desktopApps', (payload) => {
+  const appsMap = appsStore.appsById
+  const entries = payload.filter((entry) => {
+    const app = appsMap.get(entry.appId)
+    if (!app) return true
+    return app.isInstalled || app.isDefaultApp || !!app.deviceId || !!app.groups
+  })
+
   const occupied = new Set<string>()
-  for (const app of payload) {
+  for (const app of entries) {
     const key = `${app.x},${app.y}`
     if (occupied.has(key)) {
       const { x, y } = appsStore.nextFreeCell(occupied)
@@ -396,11 +407,14 @@ onNuiEvent<DesktopApp[]>('desktopApps', (payload) => {
     }
   }
 
-  appsStore.desktopApps = payload
+  appsStore.desktopApps = entries
 
-  if (payload.length === 0) {
+  if (entries.length === 0) {
     appsStore.populateDefaultDesktopApps()
   } else {
     appsStore.fixOutOfBoundsApps()
+    if (entries.length !== payload.length) {
+      appsStore.saveDesktopApps()
+    }
   }
 })

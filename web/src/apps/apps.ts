@@ -12,7 +12,8 @@ const loaders: Record<string, ComponentLoader> = {
   spellme: () => import('../apps/SpellMeApp.svelte'),
   calendar: () => import('../apps/CalendarApp.svelte'),
   notes: () => import('../apps/NotesApp.svelte'),
-  email: () => import('../apps/EmailApp.svelte')
+  email: () => import('../apps/EmailApp.svelte'),
+  yellowpages: () => import('../apps/YellowPagesApp.svelte'),
 }
 
 const loadedApps: Record<string, AnyComponent> = {}

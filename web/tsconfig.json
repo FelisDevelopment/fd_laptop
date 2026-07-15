@@ -13,7 +13,7 @@
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "types": ["svelte", "node"],
+    "types": ["svelte", "node", "vite/client"],
     "baseUrl": ".",
     "paths": {
       "$lib/*": ["src/lib/*"]

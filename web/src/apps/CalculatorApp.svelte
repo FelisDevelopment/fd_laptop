@@ -134,13 +134,13 @@
     <span class="text-[#F0F0F5] truncate text-4xl font-light">{display}</span>
   </div>
 
-  <div class="grid flex-1 grid-cols-4 gap-px p-px">
+  <div class="grid flex-1 grid-cols-4 gap-[6px] p-3 pt-0">
     {#each buttons as btn}
       <button
         type="button"
-        class="flex items-center justify-center text-lg font-medium transition-colors active:brightness-90
+        class="flex items-center justify-center rounded-lg text-lg font-medium transition-colors active:brightness-90
           {btn.style === 'operator'
-            ? 'bg-orange-500 text-white hover:bg-orange-400'
+            ? 'bg-[#E4A832] text-[#16171C] hover:bg-[#EDB64A]'
             : btn.style === 'function'
               ? 'bg-[#2D2F3A] text-[#F0F0F5] hover:bg-[#3a3c4a]'
               : 'bg-[#1E2028] text-[#F0F0F5] hover:bg-[#252730]'}
