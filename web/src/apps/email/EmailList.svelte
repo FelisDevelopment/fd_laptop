@@ -17,7 +17,7 @@
 
   type ReadFilter = 'all' | 'read' | 'unread'
 
-  let { emails, loading, hasMore, onselect, onloadmore, folder, searchQuery, onsearch, readFilter, onreadfilter }: {
+  let { emails, loading, hasMore, onselect, onloadmore, folder, searchQuery, onsearch, readFilter, onreadfilter, ondeleteall }: {
     emails: Email[]
     loading: boolean
     hasMore: boolean
@@ -28,7 +28,15 @@
     onsearch: (query: string) => void
     readFilter: ReadFilter
     onreadfilter: (filter: ReadFilter) => void
+    ondeleteall: () => void
   } = $props()
+
+  let deleteAllConfirm = $state(false)
+
+  $effect(() => {
+    void folder
+    deleteAllConfirm = false
+  })
 
   function stripHtml(html: string): string {
     if (!html) return ''
@@ -107,6 +115,34 @@
       class="py-1 px-3 border rounded-2xl text-[11px] font-medium font-inherit cursor-pointer transition-colors duration-150 whitespace-nowrap {readFilter === 'read' ? 'text-[#F0F0F5] bg-[#7C8AED] border-[#7C8AED] hover:bg-[#6B79DC] hover:border-[#6B79DC]' : 'bg-none border-[#2D2F3A] text-[#6B6D7A] hover:text-[#8B8D9A] hover:border-[#3A3D4A]'}"
       onclick={() => onreadfilter('read')}
     >{localeStore.t('email_filter_read')}</button>
+    {#if emails.length > 0}
+      <div class="ml-auto flex items-center gap-[6px]">
+        {#if deleteAllConfirm}
+          <button
+            type="button"
+            class="py-1 px-3 border rounded-2xl text-[11px] font-medium font-inherit cursor-pointer transition-colors duration-150 whitespace-nowrap text-[#F0F0F5] bg-[#E55B5B] border-[#E55B5B] hover:bg-[#D14A4A] hover:border-[#D14A4A]"
+            onclick={() => { deleteAllConfirm = false; ondeleteall() }}
+          >{localeStore.t('email_delete_all_confirm')}</button>
+          <!-- svelte-ignore a11y_consider_explicit_label -->
+          <button
+            type="button"
+            class="w-6 h-6 flex items-center justify-center bg-none border border-[#2D2F3A] rounded-full text-[#6B6D7A] cursor-pointer transition-colors duration-150 hover:text-[#8B8D9A] hover:border-[#3A3D4A]"
+            onclick={() => deleteAllConfirm = false}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        {:else}
+          <button
+            type="button"
+            class="flex items-center gap-[5px] py-1 px-3 border rounded-2xl text-[11px] font-medium font-inherit cursor-pointer transition-colors duration-150 whitespace-nowrap bg-none border-[#2D2F3A] text-[#6B6D7A] hover:text-[#E55B5B] hover:border-[#E55B5B]/50"
+            onclick={() => deleteAllConfirm = true}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            {localeStore.t('email_delete_all')}
+          </button>
+        {/if}
+      </div>
+    {/if}
   </div>
   {#if loading}
     <div class="h-[2px] w-full bg-[#1E2028] overflow-hidden shrink-0"><div class="email-loading-bar-fill h-full w-[40%] bg-[#7C8AED] rounded-[1px]"></div></div>

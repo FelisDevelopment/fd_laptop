@@ -40,6 +40,12 @@ RegisterNUICallback('emailDelete', function(data, cb)
     cb(result)
 end)
 
+RegisterNUICallback('emailDeleteAll', function(data, cb)
+    local result = lib.callback.await('fd_laptop:server:emailDeleteAll', false, data)
+
+    cb(result)
+end)
+
 RegisterNetEvent('fd_laptop:client:newEmail', function(data)
     SendNUIMessage({
         action = 'emailNewNotification',

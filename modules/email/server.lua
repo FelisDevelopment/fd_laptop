@@ -1,6 +1,8 @@
 local framework = require 'bridge.framework'
 local emailConfig = require 'config.server.email'
 
+local notifyRecipient
+
 MySQL.ready(function()
     MySQL.query([[
         CREATE TABLE IF NOT EXISTS `fd_laptop_email_accounts` (
@@ -302,7 +304,7 @@ end)
 ---@param toAddress string
 ---@param fromAddress string
 ---@param subject string
-local function notifyRecipient(toAddress, fromAddress, subject)
+function notifyRecipient(toAddress, fromAddress, subject)
     local recipientIdentifier = MySQL.scalar.await([[
         SELECT `identifier` FROM `fd_laptop_email_accounts`
         WHERE `address` = ?
@@ -435,6 +437,47 @@ lib.callback.register('fd_laptop:server:emailDelete', function(source, data)
             UPDATE `fd_laptop_emails` SET `folder` = 'trash'
             WHERE `id` = ?
         ]], { id })
+    end
+
+    return { success = true }
+end)
+
+lib.callback.register('fd_laptop:server:emailDeleteAll', function(source, data)
+    local identifier = framework.getIdentifier(source)
+    if not identifier then
+        return { error = 'Unable to identify player' }
+    end
+
+    local address = data and data.address
+    local folder = data and data.folder
+
+    if not address or not folder then
+        return { error = 'Address and folder are required' }
+    end
+
+    if folder ~= 'inbox' and folder ~= 'sent' and folder ~= 'trash' then
+        return { error = 'Invalid folder' }
+    end
+
+    local owns = MySQL.scalar.await([[
+        SELECT COUNT(*) FROM `fd_laptop_email_accounts`
+        WHERE `address` = ? AND `identifier` = ?
+    ]], { address, identifier })
+
+    if (owns or 0) == 0 then
+        return { error = 'Access denied' }
+    end
+
+    if folder == 'trash' then
+        MySQL.update.await([[
+            DELETE FROM `fd_laptop_emails`
+            WHERE `owner_address` = ? AND `folder` = 'trash'
+        ]], { address })
+    else
+        MySQL.update.await([[
+            UPDATE `fd_laptop_emails` SET `folder` = 'trash'
+            WHERE `owner_address` = ? AND `folder` = ?
+        ]], { address, folder })
     end
 
     return { success = true }

@@ -200,6 +200,8 @@ export const MockedLocales = {
   email_cancel: 'Cancel',
   email_delete: 'Delete',
   email_delete_confirm: 'Delete?',
+  email_delete_all: 'Delete all',
+  email_delete_all_confirm: 'Delete all?',
   email_back: 'Back',
   email_new_account: 'New Account',
   email_max_accounts: 'Maximum number of accounts reached',
@@ -279,7 +281,8 @@ export const MockedLocales = {
   yellowpages_reported: 'Reported',
   yellowpages_cannot_review_own: 'You cannot review your own listing',
   yellowpages_already_reviewed: 'Your review',
-  yellowpages_call: 'Call',
+  yellowpages_copy: 'Copy',
+  yellowpages_copied: 'Copied!',
   yellowpages_rating_count: 'reviews',
   yellowpages_save_failed: 'Something went wrong. Please try again.'
 }

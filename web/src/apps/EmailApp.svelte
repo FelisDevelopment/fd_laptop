@@ -201,6 +201,22 @@
     }
   }
 
+  async function handleDeleteAll() {
+    if (!activeAccount) return
+
+    const result = await fetchApi<{ success?: boolean; error?: string }>(
+      'emailDeleteAll',
+      { method: 'POST', body: JSON.stringify({ address: activeAccount.address, folder }) },
+      { success: true }
+    )
+
+    if (result && result.success) {
+      selectedEmail = null
+      emailsPage = 1
+      loadEmails()
+    }
+  }
+
   function handleComposeSent() {
     composing = false
     if (folder === 'sent') {
@@ -280,6 +296,7 @@
           onsearch={handleSearch}
           {readFilter}
           onreadfilter={handleReadFilter}
+          ondeleteall={handleDeleteAll}
         />
       {/if}
     </div>

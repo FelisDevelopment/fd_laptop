@@ -494,7 +494,7 @@
             class="py-1 px-[10px] text-[11px] font-semibold text-[#16171C] bg-[#E4A832] border-none rounded-md cursor-pointer transition-colors duration-150 {phoneCopied ? 'opacity-70' : 'hover:bg-[#C99527]'}"
             onclick={() => selected && copyPhone(selected.phone!)}
           >
-            {localeStore.t('yellowpages_call')}
+            {localeStore.t(phoneCopied ? 'yellowpages_copied' : 'yellowpages_copy')}
           </button>
         </div>
       {/if}
