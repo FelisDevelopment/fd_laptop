@@ -48,7 +48,7 @@
 <div
   id="laptop"
   bind:this={laptopRef}
-  class="fixed flex h-[85vh] min-h-[642px] w-[80vw] min-w-[1134px] flex-1 transform overflow-hidden rounded-xl border-8 border-gray-900 bg-[#16171C] bg-cover bg-center shadow-lg outline outline-1 -outline-offset-[1px] outline-gray-700/20 text-gray-100 hd:h-[80vh] hd:max-w-[min(1800px,135vh)] {dynamicClasses}"
+  class="fixed flex aspect-[16/9] w-[min(90vw,1800px,151.111vh)] min-w-[1134px] min-h-[642px] flex-1 transform overflow-hidden rounded-xl border-8 border-gray-900 bg-[#16171C] bg-cover bg-center shadow-lg outline outline-1 -outline-offset-[1px] outline-gray-700/20 text-gray-100 {dynamicClasses}"
   style={styles}
 >
   {#if laptopStore.isOpen && laptopStore.isLocked}
