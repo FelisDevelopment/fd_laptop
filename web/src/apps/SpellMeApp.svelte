@@ -22,6 +22,7 @@
     word?: string
     error?: string
     wordNumber?: number
+    resetsIn?: number
   }
   interface LeaderboardEntry {
     username: string
@@ -49,6 +50,21 @@
   let shakeRow = $state(-1)
   let revealRow = $state(-1)
   let wordNumber = $state<number | undefined>()
+  let resetSeconds = $state(0)
+  let resetTimer: ReturnType<typeof setInterval> | null = null
+
+  function clientSecondsToMidnight(): number {
+    const now = new Date()
+    const midnight = new Date(now)
+    midnight.setHours(24, 0, 0, 0)
+    return Math.round((midnight.getTime() - now.getTime()) / 1000)
+  }
+
+  function formatCountdown(total: number): string {
+    const s = Math.max(0, total)
+    const pad = (n: number) => String(n).padStart(2, '0')
+    return `${pad(Math.floor(s / 3600))}:${pad(Math.floor((s % 3600) / 60))}:${pad(s % 60)}`
+  }
 
   const MOCK_WORDS = ['APPLE','BRAIN','CHAIR','DANCE','EAGLE','FLAME','GRAPE','HOUSE','IVORY','JOKER','KNIFE','LEMON','MANGO','NOBLE','OCEAN','PIANO','QUEEN','RIVER','STONE','TIGER']
   const MOCK_VALID_SET = new Set(MOCK_WORDS)
@@ -107,7 +123,8 @@
       status: 'playing',
       attemptsUsed: 0,
       maxAttempts: 6,
-      wordNumber: 1
+      wordNumber: 1,
+      resetsIn: clientSecondsToMidnight()
     }
     const result = await fetchApi<GameState>('spellmeGetState', { method: 'POST', body: JSON.stringify({}) }, mockState)
     if (result) {
@@ -118,6 +135,7 @@
       maxAttempts = result.maxAttempts || 6
       revealedWord = result.word
       wordNumber = result.wordNumber
+      resetSeconds = result.resetsIn ?? clientSecondsToMidnight()
     }
     loading = false
   }
@@ -233,7 +251,16 @@
       console.log(`%c[SpellMe] Today's word: ${MOCK_WORD}`, 'color: #68A149; font-weight: bold;')
     }
     document.addEventListener('keydown', guardedKeydown)
-    return () => document.removeEventListener('keydown', guardedKeydown)
+    resetTimer = setInterval(() => {
+      if (resetSeconds > 0) {
+        resetSeconds -= 1
+        if (resetSeconds === 0) loadGameState()
+      }
+    }, 1000)
+    return () => {
+      document.removeEventListener('keydown', guardedKeydown)
+      if (resetTimer) clearInterval(resetTimer)
+    }
   })
 </script>
 
@@ -266,6 +293,11 @@
     {:else if errorMessage}
       <div class="bg-[#F0F0F5] text-[#16171C] text-[13px] font-bold py-[6px] px-[18px] rounded-lg wdl-fade-in">{errorMessage}</div>
     {/if}
+  </div>
+
+  <div class="flex items-center gap-1.5 text-[#50525E] text-[11px] font-medium tabular-nums shrink-0">
+    <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    <span>{localeStore.t('spellme_next_word')} {formatCountdown(resetSeconds)}</span>
   </div>
 
   {#if loading}

@@ -125,6 +125,7 @@
         "spellme_leaderboard_tab": "Leaderboard",
         "spellme_won": "Congratulations! You guessed the word!",
         "spellme_lost": "The word was",
+        "spellme_next_word": "Next word in",
         "spellme_loading": "Loading...",
         "spellme_lb_daily": "Daily",
         "spellme_lb_weekly": "Weekly",

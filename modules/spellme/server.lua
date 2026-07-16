@@ -61,6 +61,13 @@ local function getDailyWord()
     return { word = word, wordNumber = id }
 end
 
+--- Seconds remaining until the daily word resets (server midnight)
+---@return number
+local function secondsUntilReset()
+    local t = os.date('*t')
+    return 86400 - (t.hour * 3600 + t.min * 60 + t.sec)
+end
+
 --- Generate feedback for a guess against the target word
 ---@param guess string
 ---@param target string
@@ -125,7 +132,8 @@ lib.callback.register('fd_laptop:server:spellmeGetState', function(source)
             status = 'playing',
             attemptsUsed = 0,
             maxAttempts = spellmeConfig.maxAttempts,
-            wordNumber = daily.wordNumber
+            wordNumber = daily.wordNumber,
+            resetsIn = secondsUntilReset()
         }
     end
 
@@ -149,7 +157,8 @@ lib.callback.register('fd_laptop:server:spellmeGetState', function(source)
         attemptsUsed = row.attempts,
         maxAttempts = spellmeConfig.maxAttempts,
         word = status == 'lost' and daily.word or nil,
-        wordNumber = daily.wordNumber
+        wordNumber = daily.wordNumber,
+        resetsIn = secondsUntilReset()
     }
 end)
 
