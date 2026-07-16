@@ -300,7 +300,14 @@ class AppsStore {
   }
 
   get appStoreApplications() {
-    return this.apps.filter((app: AppType) => app.appstore)
+    return this.apps.filter((app: AppType) => {
+      if (app.id === 'app_store') return false
+      if (app.deviceId) {
+        const hasDevice = laptopStore.installedDevices.some((d) => d.metadata.deviceId === app.deviceId)
+        return hasDevice || laptopStore.showDeviceAppsInStore
+      }
+      return !!(app.appstore || app.isDefaultApp)
+    })
   }
 
   markAsInstalled(id: string) {

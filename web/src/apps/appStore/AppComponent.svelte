@@ -2,6 +2,7 @@
   import { iconUrl } from '$lib/utils/url.utils'
   import type { AppType } from '$lib/types/app.types'
   import { localeStore } from '$lib/stores/localeStore.svelte'
+  import { laptopStore } from '$lib/stores/laptopStore.svelte'
   import { tooltip } from '$lib/utils/tooltip'
 
   let { app, onopenview, oninstall, onremove }: {
@@ -10,6 +11,11 @@
     oninstall?: () => void
     onremove?: () => void
   } = $props()
+
+  let deviceReady = $derived(!!app.deviceId && laptopStore.installedDevices.some((d) => d.metadata.deviceId === app.deviceId))
+  let canInstall = $derived(!app.isInstalled && !app.isDefaultApp && !app.deviceId)
+  let canRemove = $derived(app.isInstalled && !app.isDefaultApp && !app.deviceId)
+  let description = $derived(app.appstore?.description || (app.isDefaultApp ? localeStore.t('app_store_preinstalled') : ''))
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -34,14 +40,14 @@
           </span>
         {/if}
       </div>
-      <p class="truncate text-xs text-[#8B8D9A]">
-        {app.appstore?.description ?? ''}
-      </p>
+      {#if description}
+        <p class="truncate text-xs text-[#8B8D9A]">{description}</p>
+      {/if}
     </div>
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div class="flex gap-2" onclick={(e) => e.stopPropagation()}>
-      {#if !app.isInstalled && !app.isDefaultApp}
+      {#if canInstall}
         <button
           type="button"
           class="rounded-lg bg-[#5BBD6B] px-3 py-1 text-xs font-medium text-white transition-colors hover:bg-[#4DAD5D] disabled:opacity-50"
@@ -54,8 +60,7 @@
             {localeStore.t('app_store_install_button')}
           {/if}
         </button>
-      {/if}
-      {#if app.isInstalled && !app.isDefaultApp}
+      {:else if canRemove}
         <button
           type="button"
           class="rounded-lg bg-[#2D2F3A] px-3 py-1 text-xs font-medium text-[#F0F0F5] transition-colors hover:bg-[#3a3c4a] disabled:opacity-50"
@@ -68,6 +73,16 @@
             {localeStore.t('app_store_remove_button')}
           {/if}
         </button>
+      {:else if app.deviceId && !deviceReady}
+        <span class="inline-flex items-center gap-1.5 rounded-lg bg-[#E4A832]/15 px-3 py-1 text-xs font-medium text-[#E4A832]">
+          <i class="fa-solid fa-microchip text-[10px]"></i>
+          {localeStore.t('app_store_requires_device')}
+        </span>
+      {:else}
+        <span class="inline-flex items-center gap-1.5 rounded-lg bg-[#5BBD6B]/15 px-3 py-1 text-xs font-medium text-[#5BBD6B]">
+          <i class="fa-solid fa-check text-[10px]"></i>
+          {localeStore.t('app_store_installed_badge')}
+        </span>
       {/if}
     </div>
   </div>

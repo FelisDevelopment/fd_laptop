@@ -132,5 +132,46 @@ export const MockedApps: AppType[] = [
       isMinimizable: true,
       isDraggable: true
     }
+  },
+  {
+    id: 'mock_market_app',
+    name: 'Radio Player',
+    icon: 'app_store.svg',
+    isInternal: false,
+    ui: '',
+    appstore: {
+      description: 'Stream live stations from across the city',
+      author: 'Third Party Studios',
+      installTime: 1500,
+      images: []
+    },
+    windowActions: {
+      isResizable: true,
+      isMaximizable: true,
+      isClosable: true,
+      isMinimizable: true,
+      isDraggable: true
+    }
+  },
+  {
+    id: 'mock_device_app',
+    name: 'Signal Scanner',
+    icon: 'app_store.svg',
+    isInternal: false,
+    ui: '',
+    deviceId: 'dev_1',
+    appstore: {
+      description: 'Requires a scanner device to operate',
+      author: 'Hardware Co',
+      installTime: 1000,
+      images: []
+    },
+    windowActions: {
+      isResizable: true,
+      isMaximizable: true,
+      isClosable: true,
+      isMinimizable: true,
+      isDraggable: true
+    }
   }
 ]

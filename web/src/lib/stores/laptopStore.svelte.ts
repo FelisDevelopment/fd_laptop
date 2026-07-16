@@ -23,6 +23,7 @@ class LaptopStore {
   dateLocale = $state<string>('en-US')
   locales = $state<Record<string, string>>({})
   needsUpdate = $state<boolean>(false)
+  showDeviceAppsInStore = $state<boolean>(false)
   installedDevices = $state<LaptopDevice[]>([])
 
   get formattedServerTime(): string {
@@ -84,6 +85,7 @@ onNuiEvent<LaptopInitEvent>('initLaptop', (data) => {
   laptopStore.clock24h = data.clock24h || false
   laptopStore.dateFormat = data.dateFormat || 'MMM dd, yyyy'
   laptopStore.dateLocale = data.dateLocale || 'en-US'
+  laptopStore.showDeviceAppsInStore = data.showDeviceAppsInStore || false
   laptopStore.needsUpdate = data.needsUpdate || false
 })
 

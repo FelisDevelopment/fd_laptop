@@ -2,6 +2,7 @@
   import { iconUrl } from '$lib/utils/url.utils'
   import type { AppType } from '$lib/types/app.types'
   import { localeStore } from '$lib/stores/localeStore.svelte'
+  import { laptopStore } from '$lib/stores/laptopStore.svelte'
   import ImageGallery from '$lib/components/ImageGallery.svelte'
 
   let { app, onclose, oninstall, onremove }: {
@@ -10,6 +11,10 @@
     oninstall?: (app: AppType) => void
     onremove?: (app: AppType) => void
   } = $props()
+
+  let deviceReady = $derived(!!app.deviceId && laptopStore.installedDevices.some((d) => d.metadata.deviceId === app.deviceId))
+  let canInstall = $derived(!app.isInstalled && !app.isDefaultApp && !app.deviceId)
+  let canRemove = $derived(app.isInstalled && !app.isDefaultApp && !app.deviceId)
 
   let images = $derived(
     app.appstore?.images
@@ -51,7 +56,7 @@
           {app.appstore?.description ?? ''}
         </span>
       </div>
-      {#if !app.isInstalled && !app.isDefaultApp}
+      {#if canInstall}
         <button
           type="button"
           class="rounded-lg bg-[#5BBD6B] px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-[#4DAD5D] disabled:opacity-50"
@@ -61,11 +66,10 @@
           {#if app.isInstalling}
             <i class="fa-solid fa-spinner fa-spin"></i>
           {:else}
-            Install
+            {localeStore.t('app_store_install_button')}
           {/if}
         </button>
-      {/if}
-      {#if app.isInstalled && !app.isDefaultApp}
+      {:else if canRemove}
         <button
           type="button"
           class="rounded-lg bg-[#2D2F3A] px-5 py-2 text-sm font-medium text-[#F0F0F5] transition-colors hover:bg-[#3a3c4a] disabled:opacity-50"
@@ -75,9 +79,19 @@
           {#if app.isInstalling}
             <i class="fa-solid fa-spinner fa-spin"></i>
           {:else}
-            Remove
+            {localeStore.t('app_store_remove_button')}
           {/if}
         </button>
+      {:else if app.deviceId && !deviceReady}
+        <span class="inline-flex items-center gap-2 rounded-lg bg-[#E4A832]/15 px-5 py-2 text-sm font-medium text-[#E4A832]">
+          <i class="fa-solid fa-microchip text-xs"></i>
+          {localeStore.t('app_store_requires_device')}
+        </span>
+      {:else}
+        <span class="inline-flex items-center gap-2 rounded-lg bg-[#5BBD6B]/15 px-5 py-2 text-sm font-medium text-[#5BBD6B]">
+          <i class="fa-solid fa-check text-xs"></i>
+          {localeStore.t('app_store_installed_badge')}
+        </span>
       {/if}
     </div>
   </div>

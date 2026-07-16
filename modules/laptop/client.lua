@@ -55,6 +55,7 @@ local function initLaptop()
             clock24h = laptopSettings.clock24h,
             dateFormat = laptopSettings.dateFormat,
             dateLocale = laptopSettings.dateLocale,
+            showDeviceAppsInStore = laptopSettings.showDeviceAppsInStore,
             needsUpdate = needsUpdate
         }
     })

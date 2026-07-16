@@ -4,6 +4,7 @@ export interface LaptopInitEvent {
   clock24h: boolean
   dateFormat: string
   dateLocale: string
+  showDeviceAppsInStore: boolean
   needsUpdate: boolean
 }
 
