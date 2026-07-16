@@ -9,6 +9,14 @@ local needsUpdate = false
 local laptopItem, currentlyOpen, devices = nil, nil, {}
 local timeInterval
 
+---@param asset string | number
+---@param loader fun(asset: string | number, timeout?: number): any
+---@return boolean
+local function loadAsset(asset, loader)
+    local ok, result = pcall(loader, asset, 10000)
+    return ok and result ~= nil and result ~= false
+end
+
 
 ---@return table<string, string>
 local function getUILocales()
@@ -80,7 +88,12 @@ local function open(item, laptopId, installedDevices, hasPassword)
     currentlyOpen = laptopId
     devices = installedDevices
 
-    lib.playAnim(cache.ped, itemConfig.attachment.animation.dict, itemConfig.attachment.animation.name, 8.0, -8.0, -1, itemConfig.attachment.animation.flag, 0, false, 0, false)
+    local anim = itemConfig.attachment.animation
+    if loadAsset(anim.dict, lib.requestAnimDict) then
+        lib.playAnim(cache.ped, anim.dict, anim.name, 8.0, -8.0, -1, anim.flag, 0, false, 0, false)
+    else
+        lib.print.error(('Unable to load laptop animation dictionary "%s"'):format(anim.dict))
+    end
 
     SendNUIMessage({
         action = 'openLaptop',
@@ -215,8 +228,12 @@ local function handleObject(entity, model, bone, position, rotation)
         return
     end
 
+    if not loadAsset(model, lib.requestModel) then
+        lib.print.error(('Unable to load laptop prop model "%s"'):format(model))
+        return
+    end
+
     local ped = GetPlayerPed(entity)
-    lib.requestModel(model)
 
     local object = CreateObject(model, 0.0, 0.0, 0.0, false, false, false)
     SetEntityCollision(object, false, false)
